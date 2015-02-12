@@ -1,25 +1,28 @@
-import java.util.List;
+package sets;
 
 import org.nlogo.api.ExtensionObject;
 import org.nlogo.api.LogoList;
 
-public class FuzzySet implements ExtensionObject {
+public abstract class FuzzySet implements ExtensionObject {
 	
 	//Hacer tipo enumerado
-	private FuzzyType description;
+	private String description;
 	private String label;
 	//
 	private LogoList parameters;
 	private boolean continuous;
 	private Double[] universe;
 	
-	FuzzySet(FuzzyType descrip,LogoList param,boolean continuous,String label,Double[] universe){
-		description = descrip;
+	FuzzySet(String description,LogoList param,boolean continuous,String label,Double[] universe){
+		this.description = description;
 		parameters = param;
 		this.continuous = continuous;
 		this.label = label;
 		this.universe = universe;
 	}
+	
+	public abstract double evaluate(Double d);
+	public abstract double evaluate(FuzzySet f);
 	
 	@Override
 	public String dump(boolean arg0, boolean arg1, boolean arg2) {
@@ -33,9 +36,7 @@ public class FuzzySet implements ExtensionObject {
 	}
 
 	@Override
-	public String getNLTypeName() {
-		return "";
-	}
+	public abstract String getNLTypeName();
 
 	@Override
 	public boolean recursivelyEqual(Object arg0) {
@@ -43,11 +44,11 @@ public class FuzzySet implements ExtensionObject {
 		return false;
 	}
 	
-	public FuzzyType getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(FuzzyType description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

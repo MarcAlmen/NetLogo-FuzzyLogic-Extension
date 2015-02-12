@@ -1,4 +1,6 @@
+package primitives;
 
+import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
@@ -7,6 +9,8 @@ import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
+
+import sets.DiscreteNumericSet;
 
 public class DiscreteNumeric extends DefaultReporter {
 	
@@ -35,6 +39,6 @@ public class DiscreteNumeric extends DefaultReporter {
 		universe[0] =(Double) first.get(0);
 		universe[1] =(Double) last.get(0);
 
-		return new FuzzySet(FuzzyType.DISCRETE_NUMERIC,ej,false,"discrete",universe);
+		return new DiscreteNumericSet(ej,false,"discrete",universe);
 	}
 }

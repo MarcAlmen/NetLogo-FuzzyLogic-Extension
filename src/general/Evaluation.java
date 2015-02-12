@@ -1,4 +1,4 @@
-
+package general;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
@@ -8,6 +8,8 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoList;
 import org.nlogo.api.LogoListBuilder;
 import org.nlogo.api.Syntax;
+
+import sets.FuzzySet;
 
 public class Evaluation extends DefaultReporter {
 	
@@ -39,14 +41,12 @@ public class Evaluation extends DefaultReporter {
 		}
 	}
 	
-	public Object degreeOfFulfillment(FuzzySet a,FuzzySet b){	
-		String s = "Hola";
-		return s;
+	public Object degreeOfFulfillment(FuzzySet a,FuzzySet b){
+		return a.evaluate(b);
 	}
 	
 	public Object singleEvaluation(FuzzySet a,Double b){
-		String s = "Hola";
-		return s;
+		return a.evaluate(b);
 	}
 	
 	public Object multipleEvaluation(FuzzySet a, LogoList b) throws ExtensionException{

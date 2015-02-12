@@ -1,4 +1,4 @@
-
+package general;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +33,39 @@ public class SupportFunctions {
 			n++;
 		}
 		return sortingList;
+	}
+	
+	public static LogoList trapezoidalFormat(LogoList params) throws ExtensionException{
+		if(params.size() != 7){
+			throw new ExtensionException("The first argument must be a list of 7 numbers");
+		}
+		//Create a list with the piecewise linear format
+		LogoListBuilder logo = new LogoListBuilder();
+		for(int i = 0; i <= 6;i++){
+			//Checks the list has only Doubles inside
+			if(!(params.get(i) instanceof Double)){
+				throw new ExtensionException("The list can only contain numbers");
+			}
+			LogoListBuilder aux = new LogoListBuilder();
+			// list-of-parameters is a list [a, b, c, d, e, f, HEIGHT] 
+			// The membership function equals 0 in the interval [a,b],
+			// increases linearly from 0 to HEIGHT in the range b to c, 
+			// is equal to HEIGHT in the range c to d, 
+			// decreases linearly from HEIGHT to 0 in the range d to e,
+			// and equals 0 in the interval [e,f].
+			aux.add(params.get(i));
+			if(i <= 1){
+				aux.add(0.0);
+				logo.add(aux.toLogoList());
+			}else if(i <= 3){
+				aux.add(params.get(6));
+				logo.add(aux.toLogoList());
+			}else if(i <= 5){
+				aux.add(0.0);
+				logo.add(aux.toLogoList());
+			}
+		}
+		return logo.toLogoList();
 	}
 	
 	public static LogoList sortListOfPoints(List<LogoList> list){
