@@ -21,7 +21,7 @@ public class PiecewiseLinearWithLabel extends DefaultReporter{
 	@Override
 	public Object report(Argument[] arg0, Context arg1)
 			throws ExtensionException, LogoException {
-		Double[] universe = new Double[] {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}; 
+		double[] universe = new double[] {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}; 
 		//List<LogoList> sortingList = new ArrayList<LogoList>();
 		/*
 		 * CheckListFormat Checks:
@@ -36,7 +36,7 @@ public class PiecewiseLinearWithLabel extends DefaultReporter{
 		if(arg0[1].getList().size() < 2){
 			throw new ExtensionException("At least 2 points must be provided");
 		}
-		LogoList ej = SupportFunctions.sortListOfPoints(SupportFunctions.checkListFormat(arg0[1].getList()));
+		LogoList ej = SupportFunctions.checkListFormat(arg0[1].getList());
 		LogoList first = (LogoList) ej.first();
 		LogoList last = (LogoList) ej.get(ej.size()-1);
 		universe[0] =(Double) first.get(0);

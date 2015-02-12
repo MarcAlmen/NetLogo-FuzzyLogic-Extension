@@ -11,9 +11,9 @@ public abstract class FuzzySet implements ExtensionObject {
 	//
 	private LogoList parameters;
 	private boolean continuous;
-	private Double[] universe;
+	private double[] universe;
 	
-	FuzzySet(String description,LogoList param,boolean continuous,String label,Double[] universe){
+	FuzzySet(String description,LogoList param,boolean continuous,String label,double[] universe){
 		this.description = description;
 		parameters = param;
 		this.continuous = continuous;
@@ -21,7 +21,7 @@ public abstract class FuzzySet implements ExtensionObject {
 		this.universe = universe;
 	}
 	
-	public abstract double evaluate(Double d);
+	public abstract double evaluate(double d);
 	public abstract double evaluate(FuzzySet f);
 	
 	@Override
@@ -60,11 +60,11 @@ public abstract class FuzzySet implements ExtensionObject {
 		this.parameters = parameters;
 	}
 
-	public Double[] getUniverse() {
+	public double[] getUniverse() {
 		return universe;
 	}
 
-	public void setUniverse(Double[] universe) {
+	public void setUniverse(double[] universe) {
 		this.universe = universe;
 	}
 

@@ -12,10 +12,10 @@ public class DegreeOfFulfillment {
 	public static Double discreteFulfillment(FuzzySet a, FuzzySet b){
 		LogoList paramsA = a.getParameters();
 		LogoList paramsB = b.getParameters();
-		Double va;
-		Double vb;
-		Double degree = Double.NEGATIVE_INFINITY;
-		Double minimum = Double.POSITIVE_INFINITY;
+		double va;
+		double vb;
+		double degree = Double.NEGATIVE_INFINITY;
+		double minimum = Double.POSITIVE_INFINITY;
 		//Save the parameters of the 2 FuzzySets(Both Discrete)
 		LogoList elementA;
 		LogoList elementB;
@@ -24,14 +24,16 @@ public class DegreeOfFulfillment {
 			//Save the first element(Point) of each parameters
 			elementA =(LogoList) paramsA.first();
 			elementB =(LogoList) paramsB.first();
-			//Probar con ==
+			//Save the x value
+			va = (Double) elementA.first();
+			vb = (Double) elementB.first();
 			//If they have the same value
-			if(Double.compare((Double) elementA.first(),(Double) elementB.first()) == 0){
+			if(va == vb){
 				//Save the second value of the Point
 				va =(Double) elementA.get(1);
 				vb =(Double) elementB.get(1);
 				//We save the minimum of them
-				if(va.compareTo(vb) == -1){
+				if(va < vb){
 					minimum = va;
 				}else{
 					minimum = vb;
@@ -45,7 +47,7 @@ public class DegreeOfFulfillment {
 				paramsB = paramsB.butFirst(); 
 			}else{//If they are different
 				//If the first element of A is lower than the first element of B we delete from A, if not we delete from B
-				if(Double.compare((Double) elementA.first(),(Double) elementB.first()) == -1){
+				if(va < vb){
 					paramsA = paramsA.butFirst();
 				}else{
 					paramsB = paramsB.butFirst();
@@ -70,22 +72,22 @@ public class DegreeOfFulfillment {
 		//Get the parameters of the discrete fuzzy set
 		LogoList elementsD = discrete.getParameters();
 		LogoList point;
-		Double x;
-		Double[] universe = continuous.getUniverse();
+		double x;
+		double[] universe = continuous.getUniverse();
 		List<Double> numbersToEvaluate = new ArrayList<Double>();
 		//Iterate over the parameters and add to a list the first number(x) of each points
 		for(Object o : elementsD){
 			point =(LogoList) o;
 			x = (Double) point.first();
 			//If not in the universe of the continuous set dont add it
-			if(Double.compare(x, universe[0]) >= 0 && Double.compare(x, universe[1]) <= 0){
+			if(x >= universe[0] && x <= universe[1]){
 				numbersToEvaluate.add((Double) point.first());
 			}	
 		}
-		Double max = Double.NEGATIVE_INFINITY;
-		Double evCont,evDisc;
+		double max = Double.NEGATIVE_INFINITY;
+		double evCont,evDisc;
 		//Iterate over the numbersToEvaluate
-		for(Double d : numbersToEvaluate){
+		for(double d : numbersToEvaluate){
 			//Evaluate the number in each Fuzzy Set
 			evCont = continuous.evaluate(d);
 			evDisc = discrete.evaluate(d);

@@ -18,9 +18,18 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-discrete-numeric-set", new DiscreteNumeric());
 		primitiveManager.addPrimitive("fuzzy-piecewise-linear-set", new PiecewiseLinear());
 		primitiveManager.addPrimitive("fuzzy-trapezoidal-set", new Trapezoidal());
+		primitiveManager.addPrimitive("fuzzy-logistic-set", new Logistic());
+		primitiveManager.addPrimitive("fuzzy-gaussian-set", new Gaussian());
+		primitiveManager.addPrimitive("fuzzy-exponential-set", new Exponential());
+		primitiveManager.addPrimitive("fuzzy-interval-with-points-set", new Interval());
 		primitiveManager.addPrimitive("fuzzy-discrete-numeric-set-with-label", new DiscreteNumericWithLabel());
 		primitiveManager.addPrimitive("fuzzy-piecewise-linear-set-with-label", new PiecewiseLinearWithLabel());
 		primitiveManager.addPrimitive("fuzzy-trapezoidal-set-with-label", new TrapezoidalWithLabel());
+		primitiveManager.addPrimitive("fuzzy-logistic-set-with-label", new LogisticWithLabel());
+		primitiveManager.addPrimitive("fuzzy-gaussian-set-with-label", new GaussianWithLabel());
+		primitiveManager.addPrimitive("fuzzy-exponential-set-with-label", new ExponentialWithLabel());
+		primitiveManager.addPrimitive("fuzzy-interval-with-points-set-with-label", new IntervalWithLabel());
+		
 		
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());

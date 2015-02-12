@@ -23,6 +23,6 @@ public class Trapezoidal extends DefaultReporter {
 			throws ExtensionException, LogoException {
 		LogoList args = arg0[0].getList(); 
 		return new PiecewiseLinearSet(SupportFunctions.trapezoidalFormat(args),true,"piecewise",
-										new Double[]{(Double) args.first(),(Double) args.get(5)});
+										new double[]{(Double) args.first(),(Double) args.get(5)});
 	}
 }

@@ -20,7 +20,7 @@ public class DiscreteNumeric extends DefaultReporter {
 
 	@Override
 	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
-		Double[] universe = new Double[] {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}; 
+		double[] universe = new double[] {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}; 
 		//List<LogoList> sortingList = new ArrayList<LogoList>();
 		/*
 		 * CheckListFormat Checks:
@@ -32,7 +32,7 @@ public class DiscreteNumeric extends DefaultReporter {
 		//sortingList = SupportFunctions.checkListFormat(arg0[0].getList());
 		//Ordenar por el primer elemento
 		//Posible mejora: Si ya está ordenado evitar ordenarlo
-		LogoList ej = SupportFunctions.sortListOfPoints(SupportFunctions.checkListFormat(arg0[0].getList()));
+		LogoList ej = SupportFunctions.checkListFormat(arg0[0].getList());
 		//Obtiene el universo del FuzzySet
 		LogoList first = (LogoList) ej.first();
 		LogoList last = (LogoList) ej.get(ej.size()-1);

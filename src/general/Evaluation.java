@@ -45,7 +45,7 @@ public class Evaluation extends DefaultReporter {
 		return a.evaluate(b);
 	}
 	
-	public Object singleEvaluation(FuzzySet a,Double b){
+	public Object singleEvaluation(FuzzySet a,double b){
 		return a.evaluate(b);
 	}
 	
