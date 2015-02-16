@@ -14,7 +14,6 @@ public class FuzzyLogic extends DefaultClassManager{
 
 	@Override
 	public void load(PrimitiveManager primitiveManager) throws ExtensionException {
-		primitiveManager.addPrimitive("fuzzy-evaluation", new Evaluation());
 		primitiveManager.addPrimitive("fuzzy-discrete-numeric-set", new DiscreteNumeric());
 		primitiveManager.addPrimitive("fuzzy-piecewise-linear-set", new PiecewiseLinear());
 		primitiveManager.addPrimitive("fuzzy-trapezoidal-set", new Trapezoidal());
@@ -29,6 +28,9 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-gaussian-set-with-label", new GaussianWithLabel());
 		primitiveManager.addPrimitive("fuzzy-exponential-set-with-label", new ExponentialWithLabel());
 		primitiveManager.addPrimitive("fuzzy-interval-with-points-set-with-label", new IntervalWithLabel());
+		
+		primitiveManager.addPrimitive("fuzzy-plot", new FuzzyPlot());
+		primitiveManager.addPrimitive("fuzzy-evaluation", new Evaluation());
 		
 		
 		primitiveManager.addPrimitive("check", new Checker());
