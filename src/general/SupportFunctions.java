@@ -11,6 +11,11 @@ import org.nlogo.api.LogoListBuilder;
 
 public class SupportFunctions {
 	
+	private static double resolution = 256;
+	
+	public static double getResolution(){
+		return resolution;
+	}
 	public static LogoList checkListFormat(LogoList params) throws ExtensionException{
 		int n = 0;
 		List<LogoList> sortingList = new ArrayList<LogoList>();

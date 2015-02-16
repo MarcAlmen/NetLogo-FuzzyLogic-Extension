@@ -13,6 +13,7 @@ public class FuzzyLogic extends DefaultClassManager{
 	//Crear un WeakHashMap para hacer de regisitro?
 	//Crear un id para asignarlo a cada entrada del weakHashmap
 	//Probar a hacerlo con una simple lista
+	public double resolution = 256;
 
 	@Override
 	public void load(PrimitiveManager primitiveManager) throws ExtensionException {
