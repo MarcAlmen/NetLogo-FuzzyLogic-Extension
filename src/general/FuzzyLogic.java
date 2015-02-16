@@ -3,7 +3,9 @@ package general;
 import org.nlogo.api.DefaultClassManager;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.PrimitiveManager;
+
 import primitives.*;
+import primitives.Defuzzification.FOM;
 
 
 public class FuzzyLogic extends DefaultClassManager{
@@ -29,6 +31,8 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-gaussian-set-with-label", new GaussianWithLabel());
 		primitiveManager.addPrimitive("fuzzy-exponential-set-with-label", new ExponentialWithLabel());
 		primitiveManager.addPrimitive("fuzzy-interval-with-points-set-with-label", new IntervalWithLabel());
+		
+		primitiveManager.addPrimitive("fuzzy-FOM", new FOM());
 		
 		
 		primitiveManager.addPrimitive("check", new Checker());
