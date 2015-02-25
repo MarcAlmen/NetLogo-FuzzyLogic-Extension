@@ -46,8 +46,9 @@ public class LOM extends DefaultReporter{
 				x = x + (1 / SupportFunctions.getResolution());
 			}
 		}else{
+			LogoList point;
 			for(Object param : f.getParameters()){
-				LogoList point = (LogoList) param;
+				point = (LogoList) param;
 				double y =(Double) point.get(1);
 				if(y >= maxVal){
 					maximum = (Double) point.first();

@@ -37,6 +37,8 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-FOM", new FOM());
 		primitiveManager.addPrimitive("fuzzy-LOM", new LOM());
 		primitiveManager.addPrimitive("fuzzy-MOM", new MOM());
+		primitiveManager.addPrimitive("fuzzy-MeOM", new MeOM());
+		primitiveManager.addPrimitive("fuzzy-COG", new COG());
 		//Checks results
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());
