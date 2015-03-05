@@ -1,10 +1,10 @@
 package general;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+
 
 import org.nlogo.api.LogoList;
 
@@ -155,7 +155,7 @@ public class DegreeOfFulfillment {
 			resultUniverse[0] = universe2[0];
 		}
 		//Look for the lower great-limit
-		if(universe1[0] < universe2[0]){
+		if(universe1[1] < universe2[1]){
 			resultUniverse[1] = universe1[1];
 		}else{
 			resultUniverse[1] = universe2[1];
@@ -166,7 +166,6 @@ public class DegreeOfFulfillment {
 		}else{
 			return new double[]{};
 		}
-		
 	}
 	
 	
@@ -200,14 +199,73 @@ public class DegreeOfFulfillment {
 		return pointsDef;
 	}
 	
-	public static Map<Double,Double> lowerEnvelope(FuzzySet a, FuzzySet b){
+//	public static Map<Double,Double> lowerEnvelope(FuzzySet a, FuzzySet b){
+//		List<Double> points = pointsToEvaluate(a.getParameters(), b.getParameters(), andInterval(a.getUniverse(), b.getUniverse()));
+//		double evalA = 0;
+//		double evalB = 0;
+//		boolean aLowerThanB = false;
+//		double pointAux = 0;
+//		double[] paramAux = new double[2];
+//		Map<Double,Double> params = new HashMap<Double,Double>();
+//		//Iterate over the points where the fuzzy sets must be evaluated
+//		for(int i = 0; i < points.size() ; i++){
+//			double d = points.get(i);
+//			evalA = a.evaluate(d);
+//			evalB = b.evaluate(d);
+//			//If this is the first point, just introduce it
+//			if(params.isEmpty()){
+//				if(evalA <= evalB){
+//					params.put(d, evalA);
+//					aLowerThanB = true;
+//				}else{
+//					params.put(d, evalB);
+//					aLowerThanB = false;
+//				}
+//			}else{//If this is not the first point
+//				if(evalA < evalB){
+//					//if evalA is lower and previous evalA was lower too, just put the point
+//					if(aLowerThanB){
+//						params.put(d, evalA);
+//					}else{//if the lines crosses, calculate the cross point and add it. The lower evaluated point should be added too.
+//						//Calculate the cross point
+//						pointAux = points.get(i-1);
+//						paramAux = crossPoint(pointAux, a.evaluate(pointAux), b.evaluate(pointAux), d, evalA, evalB);
+//						//Add the cross point
+//						params.put(paramAux[0], paramAux[1]);
+//						//Add the last point
+//						params.put(d, evalA);
+//						aLowerThanB = true;
+//					}
+//				}else if(evalA > evalB){
+//					//If evalB is lower and previous evalB was lower too, just put the point
+//					if(!aLowerThanB){
+//						params.put(d, evalB);
+//					}else{//if the lines crosses, calculate the cross point and add it. The lower evaluated point should be added too.
+//						//Calculate the cross point
+//						pointAux = points.get(i-1);
+//						paramAux = crossPoint(pointAux, a.evaluate(pointAux), b.evaluate(pointAux), d, evalA, evalB);
+//						//Add the cross point
+//						params.put(paramAux[0], paramAux[1]);
+//						//add the last point
+//						params.put(d, evalB);
+//						aLowerThanB = false;
+//					}
+//				}else{
+//					params.put(d, evalA);
+//				}
+//			}
+//		}
+//		return params;
+//	}
+	
+	public static List<double[]> lowerEnvelope(FuzzySet a, FuzzySet b){
 		List<Double> points = pointsToEvaluate(a.getParameters(), b.getParameters(), andInterval(a.getUniverse(), b.getUniverse()));
-		double evalA = 0;
+		double evalA =  0;
 		double evalB = 0;
 		boolean aLowerThanB = false;
 		double pointAux = 0;
 		double[] paramAux = new double[2];
-		Map<Double,Double> params = new HashMap<Double,Double>();
+		List<double[]> params = new ArrayList<double[]>();
 		//Iterate over the points where the fuzzy sets must be evaluated
 		for(int i = 0; i < points.size() ; i++){
 			double d = points.get(i);
@@ -216,39 +274,39 @@ public class DegreeOfFulfillment {
 			//If this is the first point, just introduce it
 			if(params.isEmpty()){
 				if(evalA <= evalB){
-					params.put(d, evalA);
+					params.add(new double[]{d,evalA});
 					aLowerThanB = true;
 				}else{
-					params.put(d, evalB);
+					params.add(new double[]{d,evalB});
 					aLowerThanB = false;
 				}
 			}else{//If this is not the first point
 				if(evalA <= evalB){
 					//if evalA is lower and previous evalA was lower too, just put the point
 					if(aLowerThanB){
-						params.put(d, evalA);
+						params.add(new double[]{d,evalA});
 					}else{//if the lines crosses, calculate the cross point and add it. The lower evaluated point should be added too.
 						//Calculate the cross point
 						pointAux = points.get(i-1);
-						paramAux = crossPoint(pointAux, a.evaluate(pointAux), b.evaluate(pointAux), d, evalA, evalB);
+						paramAux = crossPoint(pointAux, b.evaluate(pointAux), a.evaluate(pointAux), d, evalB, evalA);
 						//Add the cross point
-						params.put(paramAux[0], paramAux[1]);
+						params.add(new double[]{paramAux[0], paramAux[1]});
 						//Add the last point
-						params.put(d, evalA);
+						params.add(new double[]{d,evalA});
 						aLowerThanB = true;
 					}
-				}else{
+				}else if(evalA > evalB){
 					//If evalB is lower and previous evalB was lower too, just put the point
 					if(!aLowerThanB){
-						params.put(d, evalB);
+						params.add(new double[]{d,evalB});
 					}else{//if the lines crosses, calculate the cross point and add it. The lower evaluated point should be added too.
 						//Calculate the cross point
 						pointAux = points.get(i-1);
-						paramAux = crossPoint(pointAux, a.evaluate(pointAux), b.evaluate(pointAux), d, evalA, evalB);
+						paramAux = crossPoint(pointAux, a.evaluate(pointAux), b.evaluate(pointAux) , d, evalA , evalB);
 						//Add the cross point
-						params.put(paramAux[0], paramAux[1]);
+						params.add(new double[]{paramAux[0], paramAux[1]});
 						//add the last point
-						params.put(d, evalB);
+						params.add(new double[]{d,evalB});
 						aLowerThanB = false;
 					}
 				}
@@ -260,17 +318,21 @@ public class DegreeOfFulfillment {
 	private static double[] crossPoint(double x1,double a1,double b1,double x2,double a2,double b2){
 		double[] crossPoint = new double[2];
 		crossPoint[1] = ((b2 * a1) - (a2 * b1))/((a1 - b1) + (b2 - a2));
-		crossPoint[0] = x1+((x2 - x1)*(crossPoint[1] * b1)/(b2 - b1));
+		if(b2 == b1){
+			crossPoint[0] = x1+((x2-x1)*(a1-b2)/(a1-a2));
+			crossPoint[1] = b2;
+		}else{
+			crossPoint[0] = x1+((x2 - x1)*(crossPoint[1] - b1)/(b2 - b1));
+		}
 		return crossPoint.clone();
 	}
 	
 	public static double piecewiseFulfillment(FuzzySet a,FuzzySet b){
-		Map<Double,Double> paramsEnvelope = lowerEnvelope(a, b);
-		Collection<Double> values = paramsEnvelope.values();
+		List<double[]> paramsEnvelope = lowerEnvelope(a, b);
 		double max = Double.NEGATIVE_INFINITY;
-		for(double y : values){
-			if(y > max){
-				max = y;
+		for(double[] point : paramsEnvelope){
+			if(point[1] > max){
+				max = point[1];
 			}
 		}
 		return max;

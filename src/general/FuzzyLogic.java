@@ -44,6 +44,8 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());
 		primitiveManager.addPrimitive("and-interval", new AndInterval());
 		primitiveManager.addPrimitive("points", new Points());
+		//Addittional functions
+		primitiveManager.addPrimitive("lower-envelope", new LowerEnvelope());
 		
 		
 	}

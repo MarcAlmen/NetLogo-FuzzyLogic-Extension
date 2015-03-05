@@ -16,6 +16,16 @@ public class SupportFunctions {
 	public static double getResolution(){
 		return resolution;
 	}
+	
+	public static double[] universe(LogoList params){
+		double[] universe = new double[2];
+		LogoList first =(LogoList) params.first();
+		LogoList last =(LogoList) params.get(params.size()-1);
+		universe[0] = (Double) first.first();
+		universe[1] = (Double) last.first();
+		return universe;
+	}
+	
 	public static LogoList checkListFormat(LogoList params) throws ExtensionException{
 		int n = 0;
 		List<LogoList> sortingList = new ArrayList<LogoList>();
