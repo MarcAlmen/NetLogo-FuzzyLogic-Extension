@@ -14,6 +14,7 @@ public class FuzzyLogic extends DefaultClassManager{
 
 	@Override
 	public void load(PrimitiveManager primitiveManager) throws ExtensionException {
+		
 		primitiveManager.addPrimitive("fuzzy-discrete-numeric-set", new DiscreteNumeric());
 		primitiveManager.addPrimitive("fuzzy-piecewise-linear-set", new PiecewiseLinear());
 		primitiveManager.addPrimitive("fuzzy-trapezoidal-set", new Trapezoidal());
