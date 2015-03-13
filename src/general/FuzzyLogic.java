@@ -40,11 +40,13 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-MeOM", new MeOM());
 		primitiveManager.addPrimitive("fuzzy-COG", new COG());
 		//Checks results
+		primitiveManager.addPrimitive("fuzzy-plot", new FuzzyPlot());
+		primitiveManager.addPrimitive("fuzzy-evaluation", new Evaluation());
+		//Addittional functions
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());
 		primitiveManager.addPrimitive("and-interval", new AndInterval());
 		primitiveManager.addPrimitive("points", new Points());
-		//Addittional functions
 		primitiveManager.addPrimitive("lower-envelope", new LowerEnvelope());
 		
 		
