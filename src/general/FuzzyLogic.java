@@ -6,6 +6,7 @@ import org.nlogo.api.PrimitiveManager;
 
 import primitives.*;
 import primitives.Defuzzification.*;
+import primitives.Operators.*;
 
 
 public class FuzzyLogic extends DefaultClassManager{
@@ -42,12 +43,16 @@ public class FuzzyLogic extends DefaultClassManager{
 		//Checks results
 		primitiveManager.addPrimitive("fuzzy-plot", new FuzzyPlot());
 		primitiveManager.addPrimitive("fuzzy-evaluation", new Evaluation());
+		//Operators with fuzzy sets
+		primitiveManager.addPrimitive("fuzzy-min", new MinOrAnd());
+		primitiveManager.addPrimitive("fuzzy-and", new MinOrAnd());
 		//Addittional functions
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());
 		primitiveManager.addPrimitive("and-interval", new AndInterval());
 		primitiveManager.addPrimitive("points", new Points());
 		primitiveManager.addPrimitive("lower-envelope", new LowerEnvelope());
+
 		
 		
 	}
