@@ -1,39 +1,40 @@
 package sets;
 
+import java.util.List;
+
 import general.DegreeOfFulfillment;
 
-import org.nlogo.api.LogoList;
+public class IntervalWithPointsSet extends PointSet {
+	
+	double defaultValue;
 
-public class IntervalWithPointsSet extends FuzzySet {
-
-	public IntervalWithPointsSet(LogoList param,boolean continuous, String label, double[] universe) {
+	public IntervalWithPointsSet(List<double[]> param,boolean continuous, String label, double[] universe,double value) {
 		super("IntervalWithPoints", param, continuous, label, universe);
+		defaultValue = value;
 	}
 
 	@Override
 	public double evaluate(double d) {
 		double[] universe = getUniverse();
-		LogoList params = getParameters();
-		LogoList point;
+		List<double[]> params = getParameters();
 		double x;
 		//if the number is out of the universe return not a number
 		if(d < universe[0] || d > universe[1]){
 			return Double.NaN;
 		}
 		//Iterate over the points of parameters
-		for(Object o: params){
-			point = (LogoList) o;
-			x = (Double) point.first();
+		for(double[] point : params){
+			x = point[0];
 			//If the number to evaluate is the same as the x value of the points return the y value
 			if(d == x){
-				return (Double) point.get(1);
+				return point[1];
 			}
 			//If the number is bigger than the x value we stop looking for more points cause they are ordered.
 			if(x > d){
 				break;
 			}
 		}
-		return universe[2];
+		return defaultValue;
 	}
 
 	@Override

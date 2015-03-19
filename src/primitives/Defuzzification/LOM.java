@@ -7,11 +7,11 @@ import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
 import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
+import sets.PointSet;
 
 public class LOM extends DefaultReporter{
 	
@@ -46,12 +46,11 @@ public class LOM extends DefaultReporter{
 				x = x + (1 / SupportFunctions.getResolution());
 			}
 		}else{
-			LogoList point;
-			for(Object param : f.getParameters()){
-				point = (LogoList) param;
-				double y =(Double) point.get(1);
+			PointSet ps = (PointSet) f;
+			for(double[] point : ps.getParameters()){
+				double y = point[1];
 				if(y >= maxVal){
-					maximum = (Double) point.first();
+					maximum = point[0];
 					maxVal = y;
 				}
 			}

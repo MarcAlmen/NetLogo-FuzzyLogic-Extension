@@ -3,6 +3,7 @@ package general;
 import java.util.List;
 
 
+
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
@@ -11,8 +12,8 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoListBuilder;
 import org.nlogo.api.Syntax;
 
-import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
+import sets.PointSet;
 
 public class LowerEnvelope extends DefaultReporter {
 	
@@ -25,8 +26,8 @@ public class LowerEnvelope extends DefaultReporter {
 		LogoListBuilder endAux = new LogoListBuilder();
 		LogoListBuilder end = new LogoListBuilder();
 		List<double[]> result;
-		FuzzySet a = new PiecewiseLinearSet(arg0[0].getList(), true, "uno", SupportFunctions.universe(arg0[0].getList()));
-		FuzzySet b = new PiecewiseLinearSet(arg0[1].getList(), true, "otro", SupportFunctions.universe(arg0[1].getList()));
+		PointSet a = new PiecewiseLinearSet(SupportFunctions.checkListFormat(arg0[0].getList()), true, "uno", SupportFunctions.universe(arg0[0].getList()));
+		PointSet b = new PiecewiseLinearSet(SupportFunctions.checkListFormat(arg0[1].getList()), true, "otro", SupportFunctions.universe(arg0[1].getList()));
 		result = DegreeOfFulfillment.lowerEnvelope(a, b);
 		for(double[] point : result){
 			endAux = new LogoListBuilder();

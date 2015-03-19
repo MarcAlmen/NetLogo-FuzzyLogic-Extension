@@ -19,11 +19,9 @@ public class TrapezoidalWithLabel extends DefaultReporter{
 	} 
 
 	@Override
-	public Object report(Argument[] arg0, Context arg1)
-			throws ExtensionException, LogoException {
+	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
 		LogoList args = arg0[1].getList(); 
-		return new PiecewiseLinearSet(SupportFunctions.trapezoidalFormat(args),true,arg0[0].getString(),
-										new double[]{(Double) args.first(),(Double) args.get(5)});
+		return new PiecewiseLinearSet(SupportFunctions.trapezoidalFormat(args),true,arg0[0].getString(),new double[]{(Double) args.first(),(Double) args.get(5)});
 	}
 
 }

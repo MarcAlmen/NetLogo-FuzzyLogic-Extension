@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
@@ -7,7 +9,6 @@ import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
 import sets.PiecewiseLinearSet;
@@ -37,12 +38,9 @@ public class PiecewiseLinear extends DefaultReporter {
 		if(arg0[0].getList().size() < 2){
 			throw new ExtensionException("At least 2 points must be provided");
 		}
-		LogoList ej = SupportFunctions.checkListFormat(arg0[0].getList());
-		LogoList first = (LogoList) ej.first();
-		LogoList last = (LogoList) ej.get(ej.size()-1);
-		universe[0] =(Double) first.get(0);
-		universe[1] =(Double) last.get(0);
-
+		List<double[]> ej = SupportFunctions.checkListFormat(arg0[0].getList());
+		universe[0] = ej.get(0)[0];
+		universe[1] = ej.get(ej.size()-1)[0];
 		return new PiecewiseLinearSet(ej,true,"piecewise",universe);
 	}
 

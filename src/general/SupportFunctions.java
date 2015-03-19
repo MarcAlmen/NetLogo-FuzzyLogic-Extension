@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoList;
-import org.nlogo.api.LogoListBuilder;
+
+import sets.FuzzySet;
+import sets.PiecewiseLinearSet;
 
 public class SupportFunctions {
 	
@@ -16,7 +18,7 @@ public class SupportFunctions {
 	public static double getResolution(){
 		return resolution;
 	}
-	
+	//--------------------------------------------------------Creation of Fuzzy sets-----------------------------------------------------------------------------------------
 	public static double[] universe(LogoList params){
 		double[] universe = new double[2];
 		LogoList first =(LogoList) params.first();
@@ -26,21 +28,27 @@ public class SupportFunctions {
 		return universe;
 	}
 	
-	public static LogoList checkListFormat(LogoList params) throws ExtensionException{
+	public static List<double[]> checkListFormat(LogoList params) throws ExtensionException{
 		int n = 0;
-		List<LogoList> sortingList = new ArrayList<LogoList>();
+		List<double[]> sortingList = new ArrayList<double[]>();
+		double[] point = new double[2];
+		if(params.size() == 0){
+			throw new ExtensionException("The list is empty, please enter a valid list: [[a b] [c d] [e f]]");
+		}
 		for(Object o : params){
 			//Checks the elements are lists
 			if(!(o instanceof LogoList)){
 				throw new ExtensionException("List of 2 elements lists expected. The element in the position " + Double.valueOf(n) + " is not a list");
 			}
 			LogoList l = (LogoList) o;
-			//Add to a list to use the Collections.sort method
-			sortingList.add(l);
 			//Checks if the lists contains 2 elements
 			if(l.size() != 2){
 				throw new ExtensionException("List of 2 elements lists expected. The element in the position " + Double.valueOf(n) + " is not a list of two elements");
 			}
+			point[0] = (Double) l.first();
+			point[1] = (Double) l.get(1);
+			//Add to a list to use the Collections.sort method
+			sortingList.add(point.clone());
 			//Checks if the elements are doubles
 			if((Double) l.get(1) > 1 || (Double) l.get(1) < 0){
 				throw new ExtensionException("The second number of each list should be between 0 and 1 " + Double.valueOf(n) + " is not between 0 and 1");
@@ -50,17 +58,15 @@ public class SupportFunctions {
 		return sortListOfPoints(sortingList);
 	}
 	
-	public static LogoList sortListOfPoints(List<LogoList> list){
+	public static List<double[]> sortListOfPoints(List<double[]> list){
 		//Implement the Comparator for LogoList
-		Comparator<LogoList> comp = new Comparator<LogoList>(){
-			public int compare(LogoList a,LogoList b){
+		Comparator<double[]> comp = new Comparator<double[]>(){
+			public int compare(double[] a,double[] b){
 				//Obtain the first element of each LogoList to compare
-				double i = (Double) a.get(0);
-				double j = (Double) b.get(0);
 				//Returns required by comparators(1 if the first is bigger, -1 if smaller and 0 if equal)
-				if(i>j){
+				if(a[0]>b[0]){
 					return 1;
-				}else if(j > i){
+				}else if(b[0] > a[0]){
 					return -1;
 				}else{
 					return 0;
@@ -70,10 +76,7 @@ public class SupportFunctions {
 		//Sort
 		Collections.sort(list,comp);
 		//Build the sorted LogoList to store in the FuzzySet
-		LogoListBuilder log = new LogoListBuilder();
-		log.addAll(list);
-		LogoList ej = log.toLogoList();
-		return ej;
+		return list;
 	}
 	
 	/**
@@ -132,36 +135,127 @@ public class SupportFunctions {
 				return universe;
 	}
 	
-	public static LogoList trapezoidalFormat(LogoList params) throws ExtensionException{
+	public static List<double[]> trapezoidalFormat(LogoList params) throws ExtensionException{
 		if(params.size() != 7){
 			throw new ExtensionException("The first argument must be a list of 7 numbers");
 		}
-		//Create a list with the piecewise linear format
-		LogoListBuilder logo = new LogoListBuilder();
+		List<double[]> resultParams = new ArrayList<double[]>();
 		for(int i = 0; i <= 6;i++){
 			//Checks the list has only Doubles inside
 			if(!(params.get(i) instanceof Double)){
 				throw new ExtensionException("The list can only contain numbers");
 			}
-			LogoListBuilder aux = new LogoListBuilder();
 			// list-of-parameters is a list [a, b, c, d, e, f, HEIGHT] 
 			// The membership function equals 0 in the interval [a,b],
 			// increases linearly from 0 to HEIGHT in the range b to c, 
 			// is equal to HEIGHT in the range c to d, 
 			// decreases linearly from HEIGHT to 0 in the range d to e,
 			// and equals 0 in the interval [e,f].
-			aux.add(params.get(i));
 			if(i <= 1){
-				aux.add(0.0);
-				logo.add(aux.toLogoList());
+				resultParams.add(new double[]{(Double) params.get(i),0});
 			}else if(i <= 3){
-				aux.add(params.get(6));
-				logo.add(aux.toLogoList());
+				resultParams.add(new double[]{(Double) params.get(i),(Double) params.get(6)});
 			}else if(i <= 5){
-				aux.add(0.0);
-				logo.add(aux.toLogoList());
+				resultParams.add(new double[]{(Double) params.get(i),0});
 			}
 		}
-		return logo.toLogoList();
+		return resultParams;
+	}
+	//---------------------------------------------------------Min and Max functions
+//	public static int checkOperationFormat(LogoList l){
+//		LogoList listOfSets = l;
+//		//If there is only one set just report that set.
+//		if(listOfSets.size() == 1){
+//			return 4;
+//		}
+//		return allType(listOfSets);
+//	}
+	
+	public static int allType(LogoList l){
+		int discrete = 0;
+		int piecewise = 0;
+		int continuous = 0;
+		//Count the type of all the fuzzy sets inside the list
+		for(Object o : l){
+			FuzzySet f =(FuzzySet) o;
+			if(f.isContinuous()){
+				if(f instanceof PiecewiseLinearSet){
+					piecewise++;
+				}
+					continuous++;
+			}else{
+				discrete++;
+			}
+		}
+		//If all the sets of the list are discrete return 1
+		if(discrete == l.size()){
+			return 1;
+		}
+		//If all the sets of the list are piecewise return 2
+		//Return first piecewise linear cause piecewise linear is also continuous
+		if(piecewise == l.size()){
+			return 2;
+		}
+		//If all the sets of the list are continuous return 3
+		if(continuous == l.size()){
+			return 3;
+		}
+		//If the sets are mixed return 0;
+		return 0;
+	}
+	
+	public static List<double[]> discreteMaxMin(List<double[]> a, List<double[]> b,boolean isMax){
+		List<double[]> paramsA = a;
+		List<double[]> paramsB = b;
+		List<double[]> result = new ArrayList<double[]>();
+		double[] pointA;
+		double[] pointB;
+		double[] resultPoint;
+		double xA;
+		double xB;
+		//If there are points in both lists keep iterating
+		while(paramsA.size() > 0 & paramsB.size() > 0 ){
+			resultPoint = new double[2];
+			//Get the points
+			pointA =paramsA.get(0);
+			pointB =paramsB.get(0);
+			//Get the x values of the points
+			xA = pointA[0];
+			xB = pointB[0];
+			//If the x values are the same
+			if(xA == xB){
+				//add the x value to the point builder
+				resultPoint[0] = xA;
+				//if this is a discrete max calculation
+				if(isMax){
+					//Find the max value
+					if(pointA[1] >= pointB[1]){
+						resultPoint[1] = pointA[1];
+					}else{
+						resultPoint[1] = pointB[1];
+					}
+				}else{//if this is a discrete min calculation
+					//find the min value
+					if(pointA[1] <= pointB[1]){
+						resultPoint[1] = pointA[1];
+					}else{
+						resultPoint[1] = pointB[1];
+					}
+				}
+				
+				//Add the point to the result
+				result.add(resultPoint.clone());
+				//Delete both point
+				paramsA.remove(0);
+				paramsB.remove(0);
+			}else{//If the x value are not the same delete the lower one
+				if(xA < xB){
+					paramsA.remove(0);
+				}else{
+					paramsB.remove(0);
+				}
+			}
+		}
+		return result;
 	}
 }

@@ -8,7 +8,6 @@ import org.nlogo.api.Context;
 import org.nlogo.api.DefaultCommand;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 import org.nlogo.nvm.ExtensionContext;
 import org.nlogo.plot.Plot;
@@ -16,6 +15,7 @@ import org.nlogo.plot.PlotManager;
 import org.nlogo.plot.PlotPen;
 import org.nlogo.window.GUIWorkspace;
 
+import sets.DiscreteNumericSet;
 import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
 
@@ -38,12 +38,12 @@ public class FuzzyPlot extends DefaultCommand{
 		setRanges(p, f.getUniverse());
 		if(f.isContinuous()){
 			if(f instanceof PiecewiseLinearSet){
-				piecewisePlot(p,f);
+				piecewisePlot(p,(PiecewiseLinearSet) f);
 			}else{
 				continuousPlot(p, f);
 			}
 		}else{
-			discretePlot(p, f);
+			discretePlot(p,(DiscreteNumericSet) f);
 		}
 		gw.updatePlots(ec.nvmContext());
 	}
@@ -70,7 +70,7 @@ public class FuzzyPlot extends DefaultCommand{
 		p.yMax_$eq(1);
 	}
 	
-	public void piecewisePlot(Plot p, FuzzySet f){
+	public void piecewisePlot(Plot p, PiecewiseLinearSet f){
 		//Create, configure and add a new Pen
 		PlotPen pp = p.createPlotPen("piecewise", true);
 		pp.mode_$eq(0);
@@ -81,16 +81,13 @@ public class FuzzyPlot extends DefaultCommand{
 		//Iterate over the parameters
 		double previousX = Double.NaN;
 		double x = Double.NaN;
-		LogoList point;
-		for(Object o : f.getParameters()){
-			//Each parameter is a point
-			point = (LogoList) o;
-			x =(Double) point.first();
+		for(double[] point : f.getParameters()){
+			x = point[0];
 			if(x == previousX){
 				pp.isDown_$eq(false);
 			}
 			//move to (x,y)
-			pp.plot(x,(Double) point.get(1));
+			pp.plot(x, point[1]);
 			//plot pen down
 			pp.isDown_$eq(true);
 			previousX = x;
@@ -120,26 +117,24 @@ public class FuzzyPlot extends DefaultCommand{
 		}
 	}
 	
-	public void discretePlot(Plot p, FuzzySet f){
+	public void discretePlot(Plot p, DiscreteNumericSet f){
 		//Create, configure and add a new Pen
 		PlotPen pp = p.createPlotPen("discrete", true);
 		pp.mode_$eq(0);
 		p.addPen(pp);
 		p.currentPen_$eq(pp);
 		//Iterate over the parameters
-		LogoList point;
 		double x = 0;
-		for(Object o: f.getParameters()){
-			point = (LogoList) o;
-			x =(Double) point.first();
-			//Plot pen up
+		for(double[] point: f.getParameters()){
 			pp.isDown_$eq(false);
+			x = point[0];
+			//Plot pen up
 			//Move to the point(x,0)
 			pp.plot(x, 0);
 			//Plot pen down
 			pp.isDown_$eq(true);
 			//Move to the point(x,y)
-			pp.plot(x,(Double) point.get(1));
+			pp.plot(x,point[1]);
 		}
 	}
 }

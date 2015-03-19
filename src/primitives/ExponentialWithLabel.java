@@ -1,5 +1,8 @@
 package primitives;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
@@ -20,8 +23,13 @@ public class ExponentialWithLabel extends DefaultReporter{
 
 	@Override
 	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
-		LogoList params = arg0[1].getList();
-		return new ExponentialSet(params,true,arg0[0].getString(),SupportFunctions.LGEFormat(params, 4));
+		LogoList params = arg0[0].getList();
+		List<Double> finalParams = new ArrayList<Double>();
+		double[] universe = SupportFunctions.LGEFormat(params, 4);
+		finalParams.add((Double) params.first());
+		finalParams.add((Double) params.get(1));
+		finalParams.add((Double) params.get(2));
+		return new ExponentialSet(finalParams,true,arg0[0].getString(),universe);
 	}
 
 }

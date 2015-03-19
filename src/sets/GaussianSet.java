@@ -2,27 +2,26 @@ package sets;
 
 
 
+import java.util.List;
+
 import general.DegreeOfFulfillment;
 
-import org.nlogo.api.LogoList;
+public class GaussianSet extends FunctionSet {
 
-public class GaussianSet extends FuzzySet {
-
-	public GaussianSet(LogoList param, boolean continuous,
-			String label, double[] universe) {
+	public GaussianSet(List<Double> param, boolean continuous, String label, double[] universe) {
 		super("Gaussian", param, continuous, label, universe);
 	}
 
 	@Override
 	public double evaluate(double d) {
-		LogoList params = getParameters();
+		List<Double> params = getParameters();
 		double[] univ = getUniverse();
 		// If out of the universe the function return undefined(Not a Number)
 		if(d < univ[0] || d > univ[1]){
 			return Double.NaN;
 		}
-		double s = (Double) params.get(1);
-		double m = (Double) params.first();
+		double s = params.get(1);
+		double m = params.get(0);
 		if(s == 0){
 			return m;
 		}else{

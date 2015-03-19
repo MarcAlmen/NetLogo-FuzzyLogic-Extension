@@ -20,9 +20,11 @@ public class IntervalWithLabel  extends DefaultReporter {
 
 	@Override
 	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
-		LogoList params = arg0[1].getList();
+		LogoList params = arg0[0].getList();
+		LogoList paramsDef =(LogoList) params.get(0);
+		LogoList paramsPoints =(LogoList) params.get(1);
 		double[] universe = SupportFunctions.IWPFormat(params);
-		return new IntervalWithPointsSet(SupportFunctions.checkListFormat((LogoList) params.get(1)),true,arg0[0].getString(),universe);
+		return new IntervalWithPointsSet(SupportFunctions.checkListFormat(paramsPoints),true,arg0[0].getString(),universe,(Double) paramsDef.get(1));
 	}
 
 }

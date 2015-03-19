@@ -1,5 +1,8 @@
 package primitives;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
@@ -19,10 +22,14 @@ public class LogisticWithLabel extends DefaultReporter {
 	}
 
 	@Override
-	public Object report(Argument[] arg0, Context arg1)
-			throws ExtensionException, LogoException {
-		LogoList params = arg0[1].getList();
-		return new LogisticSet(params,true,arg0[0].getString(),SupportFunctions.LGEFormat(params,4));
+	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
+		LogoList params = arg0[0].getList();
+		List<Double> resultParams = new ArrayList<Double>();
+		double[] universe = SupportFunctions.LGEFormat(params, 4);
+		resultParams.add((Double) params.first());
+		resultParams.add((Double) params.get(1));
+		resultParams.add((Double) params.get(2));
+		return new LogisticSet(resultParams,true,arg0[0].getString(),universe);
 	}
 
 }

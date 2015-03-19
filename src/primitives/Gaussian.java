@@ -1,5 +1,8 @@
 package primitives;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
@@ -21,7 +24,11 @@ public class Gaussian extends DefaultReporter{
 	@Override
 	public Object report(Argument[] arg0, Context arg1)throws ExtensionException, LogoException {
 		LogoList params = arg0[0].getList();
-		return new GaussianSet(params, true, "gaussian", SupportFunctions.LGEFormat(params, 3));
+		List<Double> resultParams = new ArrayList<Double>();
+		double[] universe = SupportFunctions.LGEFormat(params, 3);
+		resultParams.add((Double) params.first());
+		resultParams.add((Double) params.get(1));
+		return new GaussianSet(resultParams, true, "gaussian", universe);
 	}
 
 }

@@ -19,6 +19,7 @@ public class Points extends DefaultReporter{
 		return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),Syntax.WildcardType()},Syntax.ListType());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
 		FuzzySet a = (FuzzySet) arg0[0].get();

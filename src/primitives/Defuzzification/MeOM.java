@@ -10,11 +10,11 @@ import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
 import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
+import sets.PointSet;
 
 public class MeOM extends DefaultReporter{
 	
@@ -77,24 +77,25 @@ public class MeOM extends DefaultReporter{
 		boolean inRow = false;
 		boolean intervalComplete = false;
 		List<double[]> intervals = new ArrayList<double[]>();
-		LogoList point;
-		LogoList params = f.getParameters();
+		double[] point;
+		@SuppressWarnings("unchecked")
+		List<double[]> params = f.getParameters();
 			for(int i = 0; i < params.size() ; i++){
-				point = (LogoList) params.get(i);
-				y =(Double) point.get(1);
+				point = params.get(i);
+				y = point[1];
 				//Find the maximum
 				if(y > maxVal){
 					//Clear the intervals in order to avoid previous maximums
 					intervals.clear();
 					maxVal = y;
 					//Sets the first x of the interval
-					interval[0] =(Double) point.first();
+					interval[0] = point[0];
 					inRow = true;
 				}else if(y == maxVal){
 					//if this maximum is in a row with a previous one
 					if(inRow){
 						//sets the second x of the interval
-						interval[1] = (Double) point.first();
+						interval[1] = point[0];
 						intervalComplete = true;
 						//If this is the last point add the interval
 						if(i == params.size() - 1){
@@ -102,7 +103,7 @@ public class MeOM extends DefaultReporter{
 						}
 					}else{
 						//If not in a row set the first x of the interval
-						interval[0] =(Double) point.first();
+						interval[0] =point[0];
 						inRow = true;
 					}	
 				}else{//If y < maxVal
@@ -134,21 +135,20 @@ public class MeOM extends DefaultReporter{
 	}
 	
 	private double discreteMeOM(FuzzySet f){
-		LogoList point;
+		PointSet ps = (PointSet) f;
 		double maxVal = Double.NEGATIVE_INFINITY;
 		double y = 0;
 		double sumMaxima = 0;
 		double length = 0;
-		for(Object o : f.getParameters()){
-			point = (LogoList) o;
-			y = (Double) point.get(1);
+		for(double[] point : ps.getParameters()){
+			y = point[1];
 			//Each time a new max value is found reset length and sumMaxima
 			if(y > maxVal){
 				length = 1;
-				sumMaxima = (Double) point.first();
+				sumMaxima = point[0];
 				maxVal = y;
 			}else if(y == maxVal){//Each time the max value is found increase length and sumMaxima
-				sumMaxima += (Double) point.first();
+				sumMaxima += point[0];
 				length++;
 			}
 		}

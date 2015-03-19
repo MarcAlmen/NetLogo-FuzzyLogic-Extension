@@ -8,7 +8,10 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoListBuilder;
 import org.nlogo.api.Syntax;
 
+import sets.FunctionSet;
 import sets.FuzzySet;
+import sets.MixedSet;
+import sets.PointSet;
 
 public class Checker extends DefaultReporter {
 	
@@ -22,8 +25,29 @@ public class Checker extends DefaultReporter {
 		//Devuelve una lista con todas las propiedades de los FuzzySets
 		FuzzySet setToCheck = (FuzzySet) arg0[0].get();
 		LogoListBuilder list = new LogoListBuilder();
+		LogoListBuilder param = new LogoListBuilder();
+		LogoListBuilder aux = new LogoListBuilder();
 		list.add(setToCheck.getDescription());
-		list.add(setToCheck.getParameters());
+		if(setToCheck instanceof PointSet){
+			PointSet ps = (PointSet) setToCheck;
+			for(double[] point : ps.getParameters()){
+				aux = new LogoListBuilder();
+				aux.add(point[0]);
+				aux.add(point[1]);
+				param.add(aux.toLogoList());
+			}
+		}else if(setToCheck instanceof FunctionSet){
+			FunctionSet ps = (FunctionSet) setToCheck;
+			for(double point : ps.getParameters()){
+				param.add(point);
+			}
+		}else{
+			MixedSet ms = (MixedSet) setToCheck;
+			for(FuzzySet point : ms.getParameters()){
+					param.add(point.getDescription());
+			}
+		}
+		list.add(param.toLogoList());
 		LogoListBuilder universe = new LogoListBuilder();
 		universe.add(setToCheck.getUniverse()[0]);
 		universe.add(setToCheck.getUniverse()[1]);

@@ -1,5 +1,7 @@
 package primitives.Defuzzification;
 
+import java.util.List;
+
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
@@ -7,11 +9,11 @@ import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
-import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
 import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
+import sets.PointSet;
 
 public class COG extends DefaultReporter {
 	
@@ -30,31 +32,31 @@ public class COG extends DefaultReporter {
 		if(f.isContinuous()){
 			//If continuous and piecewise linear
 			if(f instanceof PiecewiseLinearSet){
-				return piecewiseCOG(f);
+				return piecewiseCOG((PointSet) f);
 			}else{//All continuous sets except piecewise linear
 				return continuousCOG(f);
 			}
 		}else{//If discrete
-			return discreteCOG(f);
+			return discreteCOG((PointSet) f);
 		}
 	}
 	
-	public double piecewiseCOG(FuzzySet f){
-		LogoList params = f.getParameters();
+	public double piecewiseCOG(PointSet f){
+		List<double[]> params = f.getParameters();
 		double[] universe = f.getUniverse();
 		int i = 0;
 		double massesTimes2 = 0;
 		double centerTimesmassesTimes6 = 0;
-		LogoList point1;
-		LogoList point2;
+		double[] point1;
+		double[] point2;
 		double x1,x2,y1,y2 = 0;
 		while(i<params.size()-1){
-			point1 = (LogoList) params.get(i);
-			point2 = (LogoList) params.get(i+1);
-			x1 =(Double) point1.first();
-			x2 =(Double) point2.first();
-			y1 = (Double) point1.get(1);
-			y2 =(Double) point2.get(1);
+			point1 = params.get(i);
+			point2 = params.get(i+1);
+			x1 = point1[0];
+			x2 = point2[0];
+			y1 = point1[1];
+			y2 = point2[1];
 			//Calculate massesTimes2
 			//(x2 - x1)*(y1 + y2)
 			massesTimes2 += (x2 - x1)*(y1 + y2);
@@ -89,15 +91,13 @@ public class COG extends DefaultReporter {
 		}
 	}
 	
-	public double discreteCOG(FuzzySet f){
-		LogoList params = f.getParameters();
-		LogoList point;
+	public double discreteCOG(PointSet f){
+		List<double[]> params = f.getParameters();
 		double sum = 0;
 		double sumY = 0;
-		for(Object o : params){
-			point = (LogoList) o;
-			sum += (Double) point.first() * (Double) point.get(1);
-			sumY +=(Double) point.get(1);
+		for(double[] point : params){
+			sum += point[0] * point[1];
+			sumY += point[1];
 		}
 		return sum/sumY;
 	}
