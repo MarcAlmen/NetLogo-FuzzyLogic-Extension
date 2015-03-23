@@ -4,26 +4,20 @@ import general.DegreeOfFulfillment;
 
 import java.util.List;
 
-public class SumSet extends OperatorSet {
+public class NotSet extends OperatorSet {
 
-	public SumSet(List<FuzzySet> params, boolean continuous, String label, double[] universe) {
-		super("Sum-Set", params, continuous, label, universe);
+	public NotSet(List<FuzzySet> params, boolean continuous, String label, double[] universe) {
+		super("Set-Not", params, continuous, label, universe);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public double evaluate(double d) {
-		double eval,sum = 0;
-		for(FuzzySet f : parameters){
-			eval = f.evaluate(d);
-			if(eval == Double.NaN){
-				return Double.NaN;
-			}
-			sum += eval;
-		}
-		if(sum > 1){
-			return 1;
+		double eval = parameters.get(0).evaluate(d);
+		if(eval == Double.NaN){
+			return Double.NaN;
 		}else{
-			return sum;
+			return 1-eval;	
 		}
 	}
 
@@ -38,7 +32,8 @@ public class SumSet extends OperatorSet {
 
 	@Override
 	public String getNLTypeName() {
-		return "sum-set";
+		// TODO Auto-generated method stub
+		return "set-not";
 	}
 
 }

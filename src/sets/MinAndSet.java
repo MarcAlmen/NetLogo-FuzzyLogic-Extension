@@ -3,7 +3,7 @@ package sets;
 import general.DegreeOfFulfillment;
 import java.util.List;
 
-public class MinAndSet extends MixedSet {
+public class MinAndSet extends OperatorSet {
 	
 
 
@@ -17,6 +17,9 @@ public class MinAndSet extends MixedSet {
 		double eval = Double.POSITIVE_INFINITY;
 		for(FuzzySet f : parameters){
 			eval = f.evaluate(d);
+			if(eval == Double.NaN){
+				return Double.NaN;
+			}
 			if(eval < min){
 				min = eval;
 			}

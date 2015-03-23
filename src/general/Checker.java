@@ -10,7 +10,7 @@ import org.nlogo.api.Syntax;
 
 import sets.FunctionSet;
 import sets.FuzzySet;
-import sets.MixedSet;
+import sets.OperatorSet;
 import sets.PointSet;
 
 public class Checker extends DefaultReporter {
@@ -42,9 +42,20 @@ public class Checker extends DefaultReporter {
 				param.add(point);
 			}
 		}else{
-			MixedSet ms = (MixedSet) setToCheck;
-			for(FuzzySet point : ms.getParameters()){
-					param.add(point.getDescription());
+			OperatorSet ms = (OperatorSet) setToCheck;
+			for(FuzzySet set : ms.getParameters()){
+					param.add(set.getDescription());
+					if(set instanceof PointSet){
+						PointSet ps = (PointSet) set;
+						for(double[] point : ps.getParameters()){
+							aux = new LogoListBuilder();
+							aux.add(point[0]);
+							aux.add(point[1]);
+							param.add(aux.toLogoList());
+						}
+					}else{
+						
+					}
 			}
 		}
 		list.add(param.toLogoList());

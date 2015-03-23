@@ -7,6 +7,9 @@ import org.nlogo.api.PrimitiveManager;
 import primitives.*;
 import primitives.Defuzzification.*;
 import primitives.Operators.*;
+import primitives.implication.Cut;
+import primitives.implication.Power;
+import primitives.implication.Prod;
 
 
 public class FuzzyLogic extends DefaultClassManager{
@@ -49,6 +52,12 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-max", new MaxOr());
 		primitiveManager.addPrimitive("fuzzy-or", new MaxOr());
 		primitiveManager.addPrimitive("fuzzy-sum", new Sum());
+		primitiveManager.addPrimitive("fuzzy-prob-or", new ProbOr());
+		primitiveManager.addPrimitive("fuzzy-not", new Not());
+		//Implication Operators and hedges
+		primitiveManager.addPrimitive("fuzzy-cut", new Cut());
+		primitiveManager.addPrimitive("fuzzy-prod", new Prod());
+		primitiveManager.addPrimitive("fuzzy-power", new Power());
 		//Addittional functions
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());

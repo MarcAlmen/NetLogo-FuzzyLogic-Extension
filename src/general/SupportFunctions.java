@@ -8,9 +8,6 @@ import java.util.List;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoList;
 
-import sets.FuzzySet;
-import sets.PiecewiseLinearSet;
-
 public class SupportFunctions {
 	
 	private static double resolution = 256;
@@ -160,102 +157,5 @@ public class SupportFunctions {
 			}
 		}
 		return resultParams;
-	}
-	//---------------------------------------------------------Min and Max functions
-//	public static int checkOperationFormat(LogoList l){
-//		LogoList listOfSets = l;
-//		//If there is only one set just report that set.
-//		if(listOfSets.size() == 1){
-//			return 4;
-//		}
-//		return allType(listOfSets);
-//	}
-	
-	public static int allType(LogoList l){
-		int discrete = 0;
-		int piecewise = 0;
-		int continuous = 0;
-		//Count the type of all the fuzzy sets inside the list
-		for(Object o : l){
-			FuzzySet f =(FuzzySet) o;
-			if(f.isContinuous()){
-				if(f instanceof PiecewiseLinearSet){
-					piecewise++;
-				}
-					continuous++;
-			}else{
-				discrete++;
-			}
-		}
-		//If all the sets of the list are discrete return 1
-		if(discrete == l.size()){
-			return 1;
-		}
-		//If all the sets of the list are piecewise return 2
-		//Return first piecewise linear cause piecewise linear is also continuous
-		if(piecewise == l.size()){
-			return 2;
-		}
-		//If all the sets of the list are continuous return 3
-		if(continuous == l.size()){
-			return 3;
-		}
-		//If the sets are mixed return 0;
-		return 0;
-	}
-	
-	public static List<double[]> discreteMaxMin(List<double[]> a, List<double[]> b,boolean isMax){
-		List<double[]> paramsA = a;
-		List<double[]> paramsB = b;
-		List<double[]> result = new ArrayList<double[]>();
-		double[] pointA;
-		double[] pointB;
-		double[] resultPoint;
-		double xA;
-		double xB;
-		//If there are points in both lists keep iterating
-		while(paramsA.size() > 0 & paramsB.size() > 0 ){
-			resultPoint = new double[2];
-			//Get the points
-			pointA =paramsA.get(0);
-			pointB =paramsB.get(0);
-			//Get the x values of the points
-			xA = pointA[0];
-			xB = pointB[0];
-			//If the x values are the same
-			if(xA == xB){
-				//add the x value to the point builder
-				resultPoint[0] = xA;
-				//if this is a discrete max calculation
-				if(isMax){
-					//Find the max value
-					if(pointA[1] >= pointB[1]){
-						resultPoint[1] = pointA[1];
-					}else{
-						resultPoint[1] = pointB[1];
-					}
-				}else{//if this is a discrete min calculation
-					//find the min value
-					if(pointA[1] <= pointB[1]){
-						resultPoint[1] = pointA[1];
-					}else{
-						resultPoint[1] = pointB[1];
-					}
-				}
-				
-				//Add the point to the result
-				result.add(resultPoint.clone());
-				//Delete both point
-				paramsA.remove(0);
-				paramsB.remove(0);
-			}else{//If the x value are not the same delete the lower one
-				if(xA < xB){
-					paramsA.remove(0);
-				}else{
-					paramsB.remove(0);
-				}
-			}
-		}
-		return result;
 	}
 }

@@ -4,7 +4,7 @@ import general.DegreeOfFulfillment;
 
 import java.util.List;
 
-public class MaxOrSet extends MixedSet{
+public class MaxOrSet extends OperatorSet{
 
 	public MaxOrSet(List<FuzzySet> params, boolean continuous, String label, double[] universe) {
 		super("Max-Or-set", params, continuous, label, universe);
@@ -16,6 +16,9 @@ public class MaxOrSet extends MixedSet{
 		double eval = Double.NEGATIVE_INFINITY;
 		for(FuzzySet f : parameters){
 			eval = f.evaluate(d);
+			if(eval == Double.NaN){
+				return Double.NaN;
+			}
 			if(eval > max){
 				max = eval;
 			}

@@ -1,9 +1,9 @@
 package primitives;
 
-
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
+import org.nlogo.api.Color;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultCommand;
 import org.nlogo.api.ExtensionException;
@@ -35,6 +35,7 @@ public class FuzzyPlot extends DefaultCommand{
 		GUIWorkspace gw = (GUIWorkspace) ec.workspace();
 		PlotManager pm = (PlotManager) gw.plotManager();
 		Plot p = pm.currentPlot().get();
+		p.currentPen().get().isDown_$eq(false);
 		setRanges(p, f.getUniverse());
 		if(f.isContinuous()){
 			if(f instanceof PiecewiseLinearSet){
@@ -73,6 +74,7 @@ public class FuzzyPlot extends DefaultCommand{
 	public void piecewisePlot(Plot p, PiecewiseLinearSet f){
 		//Create, configure and add a new Pen
 		PlotPen pp = p.createPlotPen("piecewise", true);
+		pp.color_$eq(Color.getRGBByName(Color.getColorNameByIndex(4)));
 		pp.mode_$eq(0);
 		p.addPen(pp);
 		p.currentPen_$eq(pp);
@@ -92,12 +94,14 @@ public class FuzzyPlot extends DefaultCommand{
 			pp.isDown_$eq(true);
 			previousX = x;
 		}
+		pp.isDown_$eq(false);
 	}
 	
 	public void continuousPlot(Plot p, FuzzySet f) throws ExtensionException{
 		double[] universe = f.getUniverse();
 		//Create, configure and add a new Pen
 		PlotPen pp = p.createPlotPen("continuous", true);
+		pp.color_$eq(Color.getRGBByName(Color.getColorNameByIndex(3)));
 		pp.mode_$eq(2);
 		p.addPen(pp);
 		p.currentPen_$eq(pp);
@@ -115,11 +119,13 @@ public class FuzzyPlot extends DefaultCommand{
 			x += 1/SupportFunctions.getResolution();
 			//throw new ExtensionException("" + steps);
 		}
+		pp.isDown_$eq(false);
 	}
 	
 	public void discretePlot(Plot p, DiscreteNumericSet f){
 		//Create, configure and add a new Pen
 		PlotPen pp = p.createPlotPen("discrete", true);
+		pp.color_$eq(Color.getRGBByName(Color.getColorNameByIndex(2)));
 		pp.mode_$eq(0);
 		p.addPen(pp);
 		p.currentPen_$eq(pp);
@@ -136,5 +142,6 @@ public class FuzzyPlot extends DefaultCommand{
 			//Move to the point(x,y)
 			pp.plot(x,point[1]);
 		}
+		pp.isDown_$eq(false);
 	}
 }
