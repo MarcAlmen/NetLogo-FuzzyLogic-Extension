@@ -1,14 +1,20 @@
 package general;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import sets.DiscreteNumericSet;
-import sets.FuzzySet;
-import sets.PiecewiseLinearSet;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import sets.DiscreteNumericSet;
+//import sets.FuzzySet;
+//import sets.PiecewiseLinearSet;
 //import sets.ExponentialSet;
 //import sets.FunctionSet;
-import sets.PointSet;
+//import sets.PointSet;
 
 public class Pruebas {
 
@@ -68,6 +74,28 @@ public class Pruebas {
 //			System.out.println(point[0]);
 //			System.out.println(point[1]);
 //		}
+		
+		
+//		Map<Double,double[]> map = new HashMap<Double, double[]>();
+//		map.put(1.0, new double[]{1,1});
+//		map.put(1.0, new double[]{1,2});
+//		map.put(1.0, new double[]{1,4});
+//		map.put(2.0, new double[]{2,6});
+//		Collection<double[]> l = map.values();
+//		System.out.println(map.size());	
+//		for(double[] d : l){
+//			System.out.println(d[0]);
+//			System.out.println(d[1]);
+//		}
+		
+		List<double[]> l = new ArrayList<double[]>();
+		l.add(new double[]{1.0,2.0});
+		double[] point = new double[]{1.0 , 2.0};
+		if(l.contains(point)){
+			System.out.println("si");
+		}else{
+			System.out.println("No");
+		}
 	}
 
 }

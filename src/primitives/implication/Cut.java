@@ -31,6 +31,10 @@ public class Cut extends DefaultReporter{
 			throw new ExtensionException("The value of the number must be between 0 and 1");
 		}
 		FuzzySet f =(FuzzySet) arg0[0].get();
+		return cutting(f, c);
+	}
+	
+	public FuzzySet cutting(FuzzySet f, double c){
 		if(f.isContinuous()){
 			if(f instanceof PiecewiseLinearSet){
 				return cutPiecewise((PointSet) f, c);

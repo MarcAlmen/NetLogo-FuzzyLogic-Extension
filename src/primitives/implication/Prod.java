@@ -29,6 +29,10 @@ public class Prod extends DefaultReporter{
 			throw new ExtensionException("The value of the number must be between 0 and 1");
 		}
 		FuzzySet f =(FuzzySet) arg0[0].get();
+		return prodding(f, c);
+	}
+	
+	public FuzzySet prodding(FuzzySet f, double c){
 		if(f.isContinuous()){
 			if(f instanceof PiecewiseLinearSet){
 				return probPiecewise((PointSet) f, c);

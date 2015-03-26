@@ -10,6 +10,12 @@ import primitives.Operators.*;
 import primitives.implication.Cut;
 import primitives.implication.Power;
 import primitives.implication.Prod;
+import primitives.rules.CutRule;
+import primitives.rules.MaxCutRule;
+import primitives.rules.MaxProdRule;
+import primitives.rules.MinCutRule;
+import primitives.rules.MinProdRule;
+import primitives.rules.ProdRule;
 
 
 public class FuzzyLogic extends DefaultClassManager{
@@ -58,6 +64,16 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("fuzzy-cut", new Cut());
 		primitiveManager.addPrimitive("fuzzy-prod", new Prod());
 		primitiveManager.addPrimitive("fuzzy-power", new Power());
+		//Rules
+		primitiveManager.addPrimitive("fuzzy-rule", new CutRule());
+		primitiveManager.addPrimitive("fuzzy-cut-rule", new CutRule());
+		primitiveManager.addPrimitive("fuzzy-prod-rule", new ProdRule());
+		primitiveManager.addPrimitive("fuzzy-min-cut-rule", new MinCutRule());
+		primitiveManager.addPrimitive("fuzzy-and-rule", new MinCutRule());
+		primitiveManager.addPrimitive("fuzzy-min-prod-rule", new MinProdRule());
+		primitiveManager.addPrimitive("fuzzy-max-cut-rule", new MaxCutRule());
+		primitiveManager.addPrimitive("fuzzy-or-rule", new MaxCutRule());
+		primitiveManager.addPrimitive("fuzzy-max-prod-rule", new MaxProdRule());
 		//Addittional functions
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());

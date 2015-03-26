@@ -1,5 +1,11 @@
 package primitives.Operators;
 
+import java.util.List;
+
+
+
+import general.DegreeOfFulfillment;
+
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
@@ -8,8 +14,11 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
+import primitives.implication.Cut;
 import sets.DiscreteNumericSet;
 import sets.FuzzySet;
+import sets.PiecewiseLinearSet;
+import sets.PointSet;
 import sets.SumSet;
 
 public class Sum extends DefaultReporter{
@@ -49,9 +58,25 @@ public class Sum extends DefaultReporter{
 	
 	
 	private FuzzySet sumPiecewise(LogoList l){
-		//TODO Confirmar funcionamiento
-		return null;
+		PointSet setA = (PointSet) l.first();
+		PointSet setB;
+		List<Double> points;
+		double[] universe = setA.getUniverse();
+		List<double[]> result = setA.getParameters();
+		//Im not proud at all about this implementation
+		for(int i = 1 ; i < l.size() ; i++){
+			setB = (PointSet) l.get(i);
+			universe = DegreeOfFulfillment.andInterval(universe, setB.getUniverse());
+			points = DegreeOfFulfillment.pointsToEvaluate(result, setB.getParameters(), universe);
+			result.clear();
+			for(double d : points){
+				result.add(new double[]{d,setA.evaluate(d) + setB.evaluate(d)});
+			}
+		}
+		Cut c = new Cut();
+		return c.cutting(new PiecewiseLinearSet(result, true, "sum-piecewise", universe),1.0);
 	}
+	
 	
 	private FuzzySet sumContinuous(LogoList l){
 		Tuple<FuzzySet> t = SupportOperators.continuousParamsUniverse(l);

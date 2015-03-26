@@ -12,8 +12,14 @@ public class ProbOrSet extends OperatorSet {
 
 	@Override
 	public double evaluate(double d) {
-		// TODO Confirmar con luis
-		return 0;
+		//double[] evaluations = new double[parameters.size()];
+		double result = parameters.get(0).evaluate(d);
+		double b = 0;
+		for(int i = 1 ; i < parameters.size() ; i++){
+			b = parameters.get(i).evaluate(d);
+			result = result + (b * (1 - result));
+		}
+		return result;
 	}
 
 	@Override

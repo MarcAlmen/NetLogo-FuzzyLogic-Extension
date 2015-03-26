@@ -164,7 +164,7 @@ public class DegreeOfFulfillment {
 	
 	
 	//Que sea private
-	public static List<Double> pointsToEvaluate(List<double[]> paramsA, List<double[]> paramsB,double[] universe){
+	public static List<Double> pointsToEvaluate(List<double[]> paramsA, List<double[]> paramsB,double[] andUniverse){
 		double xA = 0;
 		double xB = 0;
 		int i1 = 0;
@@ -179,12 +179,12 @@ public class DegreeOfFulfillment {
 			//Look for the lower of both points
 			if(xA <= xB){
 				//Check if the point is inside the and-universe
-				if(xA >= universe[0] && xA <= universe[1] && !(pointsDef.contains(xA))){
+				if(xA >= andUniverse[0] && xA <= andUniverse[1] && !(pointsDef.contains(xA))){
 					pointsDef.add(xA);
 				}
 				i1++;
 			}else{
-				if(xB >= universe[0] && xB <= universe[1] && !(pointsDef.contains(xB))){
+				if(xB >= andUniverse[0] && xB <= andUniverse[1] && !(pointsDef.contains(xB))){
 					pointsDef.add(xB);
 				}
 				i2++;
