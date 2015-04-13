@@ -52,7 +52,7 @@ public class Prod extends DefaultReporter{
 			resultPoint[1] = point[1] * c;
 			params.add(resultPoint.clone());
 		}
-		return new DiscreteNumericSet(params, false, "discrete-prod" , p.getUniverse());
+		return new PiecewiseLinearSet(params,true,"piecewise-prod",p.getUniverse());
 	}
 	
 	private FuzzySet probDiscrete(PointSet p,double c){
@@ -63,7 +63,7 @@ public class Prod extends DefaultReporter{
 			resultPoint[1] = point[1] * c;
 			params.add(resultPoint.clone());
 		}
-		return new PiecewiseLinearSet(params,true,"piecewise-prod",p.getUniverse());
+		return new DiscreteNumericSet(params, false, "discrete-prod" , p.getUniverse());
 	}
 	
 	

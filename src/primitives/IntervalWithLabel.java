@@ -10,6 +10,7 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
+import sets.FuzzySet;
 import sets.IntervalWithPointsSet;
 
 public class IntervalWithLabel  extends DefaultReporter {
@@ -20,11 +21,13 @@ public class IntervalWithLabel  extends DefaultReporter {
 
 	@Override
 	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
-		LogoList params = arg0[0].getList();
+		LogoList params = arg0[1].getList();
 		LogoList paramsDef =(LogoList) params.get(0);
 		LogoList paramsPoints =(LogoList) params.get(1);
 		double[] universe = SupportFunctions.IWPFormat(params);
-		return new IntervalWithPointsSet(SupportFunctions.checkListFormat(paramsPoints),true,arg0[0].getString(),universe,(Double) paramsDef.get(1));
+		FuzzySet createdSet = new IntervalWithPointsSet(SupportFunctions.checkListFormat(paramsPoints),true,arg0[0].getString(),universe,(Double) paramsDef.get(1));
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		return createdSet;
 	}
 
 }

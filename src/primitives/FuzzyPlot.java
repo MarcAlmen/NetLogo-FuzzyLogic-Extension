@@ -3,7 +3,6 @@ package primitives;
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
-import org.nlogo.api.Color;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultCommand;
 import org.nlogo.api.ExtensionException;
@@ -30,12 +29,10 @@ public class FuzzyPlot extends DefaultCommand{
 	@Override
 	public void perform(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
 		FuzzySet f =(FuzzySet) arg0[0].get();
-		//TODO: Comprobaciones de universo si Luis lo considera necesario
 		ExtensionContext ec = (ExtensionContext) arg1;	
 		GUIWorkspace gw = (GUIWorkspace) ec.workspace();
 		PlotManager pm = (PlotManager) gw.plotManager();
 		Plot p = pm.currentPlot().get();
-		p.currentPen().get().isDown_$eq(false);
 		setRanges(p, f.getUniverse());
 		if(f.isContinuous()){
 			if(f instanceof PiecewiseLinearSet){
@@ -46,7 +43,8 @@ public class FuzzyPlot extends DefaultCommand{
 		}else{
 			discretePlot(p,(DiscreteNumericSet) f);
 		}
-		gw.updatePlots(ec.nvmContext());
+		p.makeDirty();
+		//gw.updatePlots(ec.nvmContext());
 	}
 	
 	public void setRanges(Plot p, double[] universe){
@@ -73,11 +71,8 @@ public class FuzzyPlot extends DefaultCommand{
 	
 	public void piecewisePlot(Plot p, PiecewiseLinearSet f){
 		//Create, configure and add a new Pen
-		PlotPen pp = p.createPlotPen("piecewise", true);
-		pp.color_$eq(Color.getRGBByName(Color.getColorNameByIndex(4)));
+		PlotPen pp = p.currentPen().get();
 		pp.mode_$eq(0);
-		p.addPen(pp);
-		p.currentPen_$eq(pp);
 		//Plot pen up
 		pp.isDown_$eq(false);
 		//Iterate over the parameters
@@ -100,11 +95,8 @@ public class FuzzyPlot extends DefaultCommand{
 	public void continuousPlot(Plot p, FuzzySet f) throws ExtensionException{
 		double[] universe = f.getUniverse();
 		//Create, configure and add a new Pen
-		PlotPen pp = p.createPlotPen("continuous", true);
-		pp.color_$eq(Color.getRGBByName(Color.getColorNameByIndex(3)));
+		PlotPen pp = p.currentPen().get();
 		pp.mode_$eq(2);
-		p.addPen(pp);
-		p.currentPen_$eq(pp);
 		//Steps to iterate
 		double steps = Math.floor(1 + ((universe[1] - universe[0]) * SupportFunctions.getResolution()));
 		double x = universe[0];
@@ -124,11 +116,8 @@ public class FuzzyPlot extends DefaultCommand{
 	
 	public void discretePlot(Plot p, DiscreteNumericSet f){
 		//Create, configure and add a new Pen
-		PlotPen pp = p.createPlotPen("discrete", true);
-		pp.color_$eq(Color.getRGBByName(Color.getColorNameByIndex(2)));
+		PlotPen pp = p.currentPen().get();
 		pp.mode_$eq(0);
-		p.addPen(pp);
-		p.currentPen_$eq(pp);
 		//Iterate over the parameters
 		double x = 0;
 		for(double[] point: f.getParameters()){

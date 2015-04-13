@@ -11,6 +11,7 @@ import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
 import org.nlogo.api.Syntax;
 
+import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
 
 public class PiecewiseLinearWithLabel extends DefaultReporter{
@@ -37,10 +38,12 @@ public class PiecewiseLinearWithLabel extends DefaultReporter{
 		if(arg0[1].getList().size() < 2){
 			throw new ExtensionException("At least 2 points must be provided");
 		}
-		List<double[]> ej = SupportFunctions.checkListFormat(arg0[0].getList());
+		List<double[]> ej = SupportFunctions.checkListFormat(arg0[1].getList());
 		universe[0] = ej.get(0)[0];
 		universe[1] = ej.get(ej.size()-1)[0];
-		return new PiecewiseLinearSet(ej,true,"piecewise",universe);
+		FuzzySet createdSet = new PiecewiseLinearSet(ej,true,arg0[0].getString(),universe);
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		return createdSet;
 	}
 
 }

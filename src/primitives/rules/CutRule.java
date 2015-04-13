@@ -1,7 +1,5 @@
 package primitives.rules;
 
-import java.util.ArrayList;
-
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
 import org.nlogo.api.DefaultReporter;
@@ -10,8 +8,8 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.Syntax;
 
 import primitives.implication.Cut;
+import sets.EmptySet;
 import sets.FuzzySet;
-import sets.PiecewiseLinearSet;
 
 public class CutRule extends DefaultReporter{
 	
@@ -25,7 +23,7 @@ public class CutRule extends DefaultReporter{
 		FuzzySet conseq =(FuzzySet) arg0[1].get();
 		eval = SupportRules.simpleRulesChecks(arg0[0].getList());
 		if(eval == Double.NaN){
-			return new PiecewiseLinearSet(new ArrayList<double[]>(), true, "empty", new double[]{});
+			return new EmptySet();
 		}else{
 			Cut c = new Cut();
 			return c.cutting(conseq, eval);

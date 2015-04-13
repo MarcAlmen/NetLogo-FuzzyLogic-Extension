@@ -10,6 +10,7 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoList;
 import org.nlogo.api.Syntax;
 
+import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
 
 public class TrapezoidalWithLabel extends DefaultReporter{
@@ -21,7 +22,9 @@ public class TrapezoidalWithLabel extends DefaultReporter{
 	@Override
 	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
 		LogoList args = arg0[1].getList(); 
-		return new PiecewiseLinearSet(SupportFunctions.trapezoidalFormat(args),true,arg0[0].getString(),new double[]{(Double) args.first(),(Double) args.get(5)});
+		FuzzySet createdSet = new PiecewiseLinearSet(SupportFunctions.trapezoidalFormat(args),true,arg0[0].getString(),new double[]{(Double) args.first(),(Double) args.get(5)});
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		return createdSet;
 	}
 
 }

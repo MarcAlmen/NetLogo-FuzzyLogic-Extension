@@ -9,8 +9,8 @@ public abstract class PointSet extends FuzzySet{
 
 	PointSet(String description,List<double[]> params, boolean continuous, String label, double[] universe) {
 		super(description, continuous, label, universe);
-		parameters = new ArrayList<double[]>();
-		parameters.addAll(params);
+		//parameters = params;
+		parameters = new ArrayList<double[]>(params);
 	}
 	
 	public List<double[]> getParameters() {

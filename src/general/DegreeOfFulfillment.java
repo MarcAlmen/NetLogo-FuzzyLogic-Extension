@@ -12,49 +12,78 @@ public class DegreeOfFulfillment {
 		//Save the parameters of the 2 FuzzySets(Both Discrete)
 		List<double[]> paramsA = a.getParameters();
 		List<double[]> paramsB = b.getParameters();
-		double va;
-		double vb;
 		double degree = Double.NEGATIVE_INFINITY;
 		double minimum = Double.POSITIVE_INFINITY;
 		double[] elementA;
 		double[] elementB;
+		int i = 0, j = 0;
 		//While the 2 FuzzySets have elements we iterate
-		while(paramsB.size() > 0 & paramsA.size() > 0){
+		while(i < paramsA.size() & j < paramsB.size()){
 			//Save the first element(Point) of each parameters
-			elementA = paramsA.get(0);
-			elementB = paramsB.get(0);
-			//Save the x value
-			va = elementA[0];
-			vb = elementB[0];
+			elementA = paramsA.get(i);
+			elementB = paramsB.get(j);
 			//If they have the same value
-			if(va == vb){
-				//Save the second value of the Point
-				va = elementA[1];
-				vb = elementB[1];
+			if(elementA[0] == elementB[0]){
 				//We save the minimum of them
-				if(va < vb){
-					minimum = va;
+				if(elementA[1] < elementB[1]){
+					minimum = elementA[1];
 				}else{
-					minimum = vb;
+					minimum = elementB[1];
 				}
 				//If the degree is lower than the new minimum value, we save it in degree
 				if(degree < minimum){
 					degree = minimum;
 				}
 				//Delete the evaluated points
-				paramsA.remove(0);
-				paramsB.remove(0);
+				i++;j++;
 			}else{//If they are different
 				//If the first element of A is lower than the first element of B we delete from A, if not we delete from B
-				if(va < vb){
-					paramsA.remove(0);
+				if(elementA[0] < elementB[0]){
+					i++;
 				}else{
-					paramsB.remove(0);
+					j++;
 				}
 			}
 		}
 	return degree;
 	}
+	
+	
+//	while(paramsB.size() > 0 & paramsA.size() > 0){
+//		//Save the first element(Point) of each parameters
+//		elementA = paramsA.get(0);
+//		elementB = paramsB.get(0);
+//		//Save the x value
+//		va = elementA[0];
+//		vb = elementB[0];
+//		//If they have the same value
+//		if(va == vb){
+//			//Save the second value of the Point
+//			va = elementA[1];
+//			vb = elementB[1];
+//			//We save the minimum of them
+//			if(va < vb){
+//				minimum = va;
+//			}else{
+//				minimum = vb;
+//			}
+//			//If the degree is lower than the new minimum value, we save it in degree
+//			if(degree < minimum){
+//				degree = minimum;
+//			}
+//			//Delete the evaluated points
+//			paramsA.remove(0);
+//			paramsB.remove(0);
+//		}else{//If they are different
+//			//If the first element of A is lower than the first element of B we delete from A, if not we delete from B
+//			if(va < vb){
+//				paramsA.remove(0);
+//			}else{
+//				paramsB.remove(0);
+//			}
+//		}
+//	}
+	
 	
 	
 	public static double mixedFulfillment(FuzzySet a,FuzzySet b){

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoList;
+
+import sets.FuzzySet;
 
 public class SupportFunctions {
 	
@@ -157,5 +160,16 @@ public class SupportFunctions {
 			}
 		}
 		return resultParams;
+	}
+	
+	public static void addToRegistry(FuzzySet f,String name) throws ExtensionException{
+		Map<String,FuzzySet> registry = FuzzyLogic.getRegistry();
+		if(registry.containsKey(name)){
+			registry.remove(name);
+			registry.put(name, f);
+			//throw new ExtensionException("The name: " + name + " is already registered, please choose a different name");
+		}else{
+			registry.put(name, f);
+		}
 	}
 }

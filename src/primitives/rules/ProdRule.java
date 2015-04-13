@@ -1,6 +1,5 @@
 package primitives.rules;
 
-import java.util.ArrayList;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
@@ -10,8 +9,8 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.Syntax;
 
 import primitives.implication.Prod;
+import sets.EmptySet;
 import sets.FuzzySet;
-import sets.PiecewiseLinearSet;
 
 public class ProdRule extends DefaultReporter{
 	
@@ -25,7 +24,7 @@ public class ProdRule extends DefaultReporter{
 		FuzzySet conseq =(FuzzySet) arg0[1].get();
 		eval = SupportRules.simpleRulesChecks(arg0[0].getList());
 		if(eval == Double.NaN){
-			return new PiecewiseLinearSet(new ArrayList<double[]>(), true, "empty", new double[]{});
+			return new EmptySet();
 		}else{
 			Prod p = new Prod();
 			return p.prodding(conseq, eval);

@@ -12,6 +12,7 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.Syntax;
 
 import sets.DiscreteNumericSet;
+import sets.FuzzySet;
 
 public class DiscreteNumericWithLabel extends DefaultReporter {
 	
@@ -31,11 +32,13 @@ public class DiscreteNumericWithLabel extends DefaultReporter {
 		//sortingList = SupportFunctions.checkListFormat(arg0[0].getList());
 		//Ordenar por el primer elemento
 		//Posible mejora: Si ya está ordenado evitar ordenarlo
-		List<double[]> ej = SupportFunctions.checkListFormat(arg0[0].getList());
+		List<double[]> ej = SupportFunctions.checkListFormat(arg0[1].getList());
 		//Obtiene el universo del FuzzySet
 		universe[0] = ej.get(0)[0];
 		universe[1] = ej.get(ej.size()-1)[0];
-		return new DiscreteNumericSet(ej,false,arg0[0].getString(),universe);
+		FuzzySet createdSet = new DiscreteNumericSet(ej,false,arg0[0].getString(),universe);
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		return createdSet;
 	}
 
 }
