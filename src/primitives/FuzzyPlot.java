@@ -1,5 +1,6 @@
 package primitives;
 
+
 import general.SupportFunctions;
 
 import org.nlogo.api.Argument;
@@ -33,7 +34,7 @@ public class FuzzyPlot extends DefaultCommand{
 		GUIWorkspace gw = (GUIWorkspace) ec.workspace();
 		PlotManager pm = (PlotManager) gw.plotManager();
 		Plot p = pm.currentPlot().get();
-		setRanges(p, f.getUniverse());
+		//setRanges(p, f.getUniverse());
 		if(f.isContinuous()){
 			if(f instanceof PiecewiseLinearSet){
 				piecewisePlot(p,(PiecewiseLinearSet) f);
@@ -51,12 +52,12 @@ public class FuzzyPlot extends DefaultCommand{
 		double minRange = universe[0];
 		double maxRange = universe[1];
 		//Calculate X range
-		if(p.xMin() <= minRange){
-			minRange = p.xMin();
-		}
-		if(p.xMax() >= maxRange){
-			maxRange = p.xMax();
-		}
+//		if(p.xMin() <= minRange){
+//			minRange = p.xMin();
+//		}
+//		if(p.xMax() >= maxRange){
+//			maxRange = p.xMax();
+//		}
 		if(minRange == maxRange){
 			p.xMin_$eq(0);
 			p.xMax_$eq(2*minRange);

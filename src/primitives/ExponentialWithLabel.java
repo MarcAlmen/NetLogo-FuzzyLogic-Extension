@@ -31,7 +31,7 @@ public class ExponentialWithLabel extends DefaultReporter{
 		finalParams.add((Double) params.get(1));
 		finalParams.add((Double) params.get(2));
 		FuzzySet createdSet = new ExponentialSet(finalParams,true,arg0[0].getString(),universe);
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
 		return createdSet;
 	}
 

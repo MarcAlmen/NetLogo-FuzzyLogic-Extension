@@ -48,7 +48,7 @@ public class MaxOr extends DefaultReporter{
 	private FuzzySet maxDiscrete(LogoList l){
 		Tuple<double[]> t = SupportOperators.discreteOperations(l, new Max());
 		//Create a new Discrete numeric set with the resulting parameters
-		return new DiscreteNumericSet(t.getParams(), false, "Max-discrete", t.getUniverse());
+		return new DiscreteNumericSet(t.getParams(), false, SupportOperators.buildLabel(l, "Max"), t.getUniverse());
 	}
 	
 	private FuzzySet maxPiecewise(LogoList l){
@@ -61,14 +61,14 @@ public class MaxOr extends DefaultReporter{
 			//Calculate the andUniverse of the two sets
 			universe = DegreeOfFulfillment.andInterval(setA.getUniverse(), setB.getUniverse());
 			//Create a new set, the min piecewise of 2 piecewise.
-			setA = new PiecewiseLinearSet(DegreeOfFulfillment.upperEnvelope(setA, setB), true, "Max-piecewise" , universe);
+			setA = new PiecewiseLinearSet(DegreeOfFulfillment.upperEnvelope(setA, setB), true, SupportOperators.buildLabel(l, "Max") , universe);
 		}
 		return setA;
 	}
 	
 	private FuzzySet maxContinuous(LogoList l){
 		Tuple<FuzzySet> t = SupportOperators.continuousParamsUniverse(l);
-		return new MaxOrSet(t.getParams(),true,"Max-continuous",t.getUniverse());
+		return new MaxOrSet(t.getParams(),true,SupportOperators.buildLabel(l, "Max"),t.getUniverse());
 	}
 
 	public class Max implements Command{

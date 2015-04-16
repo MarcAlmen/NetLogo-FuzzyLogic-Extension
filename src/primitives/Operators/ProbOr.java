@@ -46,13 +46,13 @@ public class ProbOr extends DefaultReporter{
 	private FuzzySet probDiscrete(LogoList l){
 		//First discrete set and his parameters
 		Tuple<double[]> t = SupportOperators.discreteOperations(l, new Prob());
-		return new DiscreteNumericSet(t.getParams(), false, "Prob-Or-discrete", t.getUniverse());
+		return new DiscreteNumericSet(t.getParams(), false, SupportOperators.buildLabel(l, "Prob-or"), t.getUniverse());
 	}
 	
 	
 	private FuzzySet probContinuous(LogoList l){
 		Tuple<FuzzySet> t = SupportOperators.continuousParamsUniverse(l);
-		return new ProbOrSet(t.getParams(),true,"Prob-Or-continuous",t.getUniverse());
+		return new ProbOrSet(t.getParams(),true,SupportOperators.buildLabel(l, "Prob-or"),t.getUniverse());
 	}
 	
 	

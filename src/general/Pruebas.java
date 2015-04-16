@@ -1,20 +1,29 @@
 package general;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.List;
+
+
+
+
+
+
+
+import org.nlogo.api.LogoList;
+import org.nlogo.api.LogoListBuilder;
+
+import primitives.Defuzzification.MeOM;
+import primitives.Operators.MinAnd;
 //import java.util.ArrayList;
 //import java.util.List;
 //
 //import sets.DiscreteNumericSet;
 //import sets.FuzzySet;
-//import sets.PiecewiseLinearSet;
+import sets.PiecewiseLinearSet;
 //import sets.ExponentialSet;
 //import sets.FunctionSet;
-//import sets.PointSet;
+import sets.PointSet;
 
 public class Pruebas {
 
@@ -31,21 +40,29 @@ public class Pruebas {
 //			f &= !falses[i];
 //		}
 
-//		List<double[]> paramsA = new ArrayList<double[]>();
-//		double[] universe = new double[]{1,4};
-//		List<double[]> paramsB = new ArrayList<double[]>();
-//		double[] universeB = new double[]{0,10};
-//		paramsA.add(new double[]{1 , 0.3});
-//		paramsA.add(new double[]{2 , 0.5});
-//		paramsA.add(new double[]{4 , 0.7});
-//		paramsB.add(new double[]{0 , 0.6});
-//		paramsB.add(new double[]{10 , 0.6});
-//		paramsB.add(new double[]{7 , 1});
+		List<double[]> paramsA = new ArrayList<double[]>();
+		double[] universe = new double[]{0,10};
+		List<double[]> paramsB = new ArrayList<double[]>();
+		double[] universeB = new double[]{0,10};
+		paramsA.add(new double[]{0 , 1});
+		paramsA.add(new double[]{7 , 0});
+		paramsA.add(new double[]{10 , 0});
+		paramsB.add(new double[]{0 , 0});
+		paramsB.add(new double[]{3 , 0});
+		paramsB.add(new double[]{10 , 1});
 //		paramsB.add(1.0);
 //		paramsB.add(-0.25);
 //		paramsB.add(0.0);
-//		PointSet a = new PiecewiseLinearSet(paramsA, true, "a", universe);
-//		PointSet b = new PiecewiseLinearSet(paramsB, true, "b", universeB);
+		PointSet a = new PiecewiseLinearSet(paramsA, true, "a", universe);
+		PointSet b = new PiecewiseLinearSet(paramsB, true, "b", universeB);
+		LogoListBuilder l = new LogoListBuilder();
+		l.add(a);
+		l.add(b);
+		MinAnd ma = new MinAnd();
+		LogoList ll = l.toLogoList();
+		PointSet hal =(PointSet) ma.minPiecewise(ll);
+		MeOM mom = new MeOM();
+		System.out.println(mom.piecewiseMeOM(hal));
 //		List<double[]> p = DegreeOfFulfillment.upperEnvelope(a, b);
 //		for(double[] point : p){
 //			System.out.println(point[0] + "," + point[1]);
@@ -87,15 +104,6 @@ public class Pruebas {
 //			System.out.println(d[0]);
 //			System.out.println(d[1]);
 //		}
-		
-		List<double[]> l = new ArrayList<double[]>();
-		l.add(new double[]{1.0,2.0});
-		double[] point = new double[]{1.0 , 2.0};
-		if(l.contains(point)){
-			System.out.println("si");
-		}else{
-			System.out.println("No");
-		}
 	}
 
 }

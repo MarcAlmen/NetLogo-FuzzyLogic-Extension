@@ -203,4 +203,13 @@ public class SupportOperators {
 		}
 		return result;
 	}
+	
+	public static String buildLabel(LogoList l,String operation){
+		String name  = "(" + operation + "of Sets: " + ((FuzzySet) l.first()).getLabel();
+		for(int i = 1 ; i < l.size() ; i++){
+			name += "," + ((FuzzySet) l.get(i)).getLabel();
+		}
+		name += ")";
+		return name;
+	}
 }

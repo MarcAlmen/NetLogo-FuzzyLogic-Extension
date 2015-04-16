@@ -49,11 +49,11 @@ public class MinAnd extends DefaultReporter{
 	private FuzzySet minDiscrete(LogoList l){
 		Tuple<double[]> t = SupportOperators.discreteOperations(l, new Min());
 		//Create a new Discrete numeric set with the resulting parameters
-		return new DiscreteNumericSet(t.getParams(), false, "Min-discrete", t.getUniverse());
+		return new DiscreteNumericSet(t.getParams(), false,SupportOperators.buildLabel(l, "Min"), t.getUniverse());
 	}
 	
 	
-	private FuzzySet minPiecewise(LogoList l){
+	public FuzzySet minPiecewise(LogoList l){
 		PointSet setA = (PointSet) l.first();
 		double[] universe = new double[2];
 		PointSet setB;
@@ -63,14 +63,14 @@ public class MinAnd extends DefaultReporter{
 			//Calculate the andUniverse of the two sets
 			universe = DegreeOfFulfillment.andInterval(setA.getUniverse(), setB.getUniverse());
 			//Create a new set, the min piecewise of 2 piecewise.
-			setA = new PiecewiseLinearSet(DegreeOfFulfillment.lowerEnvelope(setA, setB), true, "Min-piecewise" , universe);
+			setA = new PiecewiseLinearSet(DegreeOfFulfillment.lowerEnvelope(setA, setB), true,SupportOperators.buildLabel(l, "Min"), universe);
 		}
 		return setA;
 	}
 	
 	private FuzzySet minContinuous(LogoList l){
 		Tuple<FuzzySet> t = SupportOperators.continuousParamsUniverse(l);
-		return new MinAndSet(t.getParams(),true,"Min-continuous",t.getUniverse());
+		return new MinAndSet(t.getParams(),true,SupportOperators.buildLabel(l, "Min"),t.getUniverse());
 	}	
 	
 	public class Min implements Command{

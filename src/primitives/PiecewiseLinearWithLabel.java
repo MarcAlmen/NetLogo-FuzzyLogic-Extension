@@ -42,7 +42,7 @@ public class PiecewiseLinearWithLabel extends DefaultReporter{
 		universe[0] = ej.get(0)[0];
 		universe[1] = ej.get(ej.size()-1)[0];
 		FuzzySet createdSet = new PiecewiseLinearSet(ej,true,arg0[0].getString(),universe);
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
 		return createdSet;
 	}
 

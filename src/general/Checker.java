@@ -53,8 +53,13 @@ public class Checker extends DefaultReporter {
 							aux.add(point[1]);
 							param.add(aux.toLogoList());
 						}
-					}else{
-						
+					}else if(set instanceof FunctionSet){
+						FunctionSet fs = (FunctionSet) set;
+						aux = new LogoListBuilder();
+						for(double d : fs.getParameters()){
+							aux.add(d);
+						}
+						param.add(aux.toLogoList());
 					}
 			}
 		}

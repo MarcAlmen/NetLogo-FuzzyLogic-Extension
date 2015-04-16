@@ -224,6 +224,9 @@ public class DegreeOfFulfillment {
 	
 	
 	public static List<double[]> lowerEnvelope(PointSet a, PointSet b){
+		if(andInterval(a.getUniverse(), b.getUniverse()).length == 0){
+			return null;
+		}
 		List<Double> points = pointsToEvaluate(a.getParameters(), b.getParameters(), andInterval(a.getUniverse(), b.getUniverse()));
 		double evalA =  0;
 		double evalB = 0;
@@ -354,6 +357,9 @@ public class DegreeOfFulfillment {
 	public static double piecewiseFulfillment(PointSet a,PointSet b){
 		List<double[]> paramsEnvelope = lowerEnvelope(a, b);
 		double max = Double.NEGATIVE_INFINITY;
+		if(paramsEnvelope == null){
+			return Double.NaN;
+		}
 		for(double[] point : paramsEnvelope){
 			if(point[1] > max){
 				max = point[1];

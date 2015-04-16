@@ -37,7 +37,7 @@ public class DiscreteNumericWithLabel extends DefaultReporter {
 		universe[0] = ej.get(0)[0];
 		universe[1] = ej.get(ej.size()-1)[0];
 		FuzzySet createdSet = new DiscreteNumericSet(ej,false,arg0[0].getString(),universe);
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
 		return createdSet;
 	}
 

@@ -36,7 +36,7 @@ public class MeOM extends DefaultReporter{
 		}else{
 			//If piecewise linear
 			if(f instanceof PiecewiseLinearSet){
-				return piecewiseMeOM(f);
+				return piecewiseMeOM((PointSet) f);
 			}else{
 				return discreteMeOM(f);
 			}
@@ -70,7 +70,7 @@ public class MeOM extends DefaultReporter{
 		return sumOfMax/samples;
 	}
 	
-	private double piecewiseMeOM(FuzzySet f){
+	public double piecewiseMeOM(PointSet f){
 		double maxVal = Double.NEGATIVE_INFINITY;
 		double y = 0;
 		double[] interval = new double[2];
@@ -78,7 +78,6 @@ public class MeOM extends DefaultReporter{
 		boolean intervalComplete = false;
 		List<double[]> intervals = new ArrayList<double[]>();
 		double[] point;
-		@SuppressWarnings("unchecked")
 		List<double[]> params = f.getParameters();
 			for(int i = 0; i < params.size() ; i++){
 				point = params.get(i);
@@ -87,6 +86,9 @@ public class MeOM extends DefaultReporter{
 				if(y > maxVal){
 					//Clear the intervals in order to avoid previous maximums
 					intervals.clear();
+					interval =new double[2];
+					inRow = false;
+					intervalComplete = false;
 					maxVal = y;
 					//Sets the first x of the interval
 					interval[0] = point[0];

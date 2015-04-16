@@ -26,7 +26,7 @@ public class IntervalWithLabel  extends DefaultReporter {
 		LogoList paramsPoints =(LogoList) params.get(1);
 		double[] universe = SupportFunctions.IWPFormat(params);
 		FuzzySet createdSet = new IntervalWithPointsSet(SupportFunctions.checkListFormat(paramsPoints),true,arg0[0].getString(),universe,(Double) paramsDef.get(1));
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
 		return createdSet;
 	}
 

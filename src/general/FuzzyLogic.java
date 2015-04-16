@@ -58,7 +58,7 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("COG-of", new COG());
 		//Check results
 		primitiveManager.addPrimitive("plot", new FuzzyPlot());
-		primitiveManager.addPrimitive("evaluation", new Evaluation());
+		primitiveManager.addPrimitive("evaluation-of", new Evaluation());
 		//Operators with fuzzy sets
 		primitiveManager.addPrimitive("min", new MinAnd());
 		primitiveManager.addPrimitive("and", new MinAnd());
@@ -68,22 +68,23 @@ public class FuzzyLogic extends DefaultClassManager{
 		primitiveManager.addPrimitive("prob-or", new ProbOr());
 		primitiveManager.addPrimitive("not", new Not());
 		//Implication Operators and hedges
-		primitiveManager.addPrimitive("cut", new Cut());
+		primitiveManager.addPrimitive("truncate", new Cut());
 		primitiveManager.addPrimitive("prod", new Prod());
 		primitiveManager.addPrimitive("power", new Power());
 		//Rules
 		primitiveManager.addPrimitive("rule", new CutRule());
-		primitiveManager.addPrimitive("cut-rule", new CutRule());
+		primitiveManager.addPrimitive("truncate-rule", new CutRule());
 		primitiveManager.addPrimitive("prod-rule", new ProdRule());
-		primitiveManager.addPrimitive("min-cut-rule", new MinCutRule());
+		primitiveManager.addPrimitive("min-truncate-rule", new MinCutRule());
 		primitiveManager.addPrimitive("and-rule", new MinCutRule());
 		primitiveManager.addPrimitive("min-prod-rule", new MinProdRule());
-		primitiveManager.addPrimitive("max-cut-rule", new MaxCutRule());
+		primitiveManager.addPrimitive("max-truncate-rule", new MaxCutRule());
 		primitiveManager.addPrimitive("or-rule", new MaxCutRule());
 		primitiveManager.addPrimitive("max-prod-rule", new MaxProdRule());
 		//Additional functions(Required)
 		primitiveManager.addPrimitive("set-with-label", new SetFinder());
 		//Additional functions(Mine)
+		primitiveManager.addPrimitive("set-resolution", new Resolution());
 		primitiveManager.addPrimitive("check", new Checker());
 		primitiveManager.addPrimitive("checkPoint", new PointChecker());
 		primitiveManager.addPrimitive("and-interval", new AndInterval());

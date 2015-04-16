@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoList;
 
@@ -17,6 +18,10 @@ public class SupportFunctions {
 	
 	public static double getResolution(){
 		return resolution;
+	}
+	
+	public static void setResolution(double d){
+		resolution = d;
 	}
 	//--------------------------------------------------------Creation of Fuzzy sets-----------------------------------------------------------------------------------------
 	public static double[] universe(LogoList params){
@@ -162,12 +167,15 @@ public class SupportFunctions {
 		return resultParams;
 	}
 	
-	public static void addToRegistry(FuzzySet f,String name) throws ExtensionException{
+	public static void addToRegistry(FuzzySet f,String name,Context c) throws ExtensionException{
 		Map<String,FuzzySet> registry = FuzzyLogic.getRegistry();
+		//GUIWorkspace gw =(GUIWorkspace) ((ExtensionContext) c).workspace();
 		if(registry.containsKey(name)){
 			registry.remove(name);
 			registry.put(name, f);
-			//throw new ExtensionException("The name: " + name + " is already registered, please choose a different name");
+//			OptionDialog.show(gw.getFrame(), "User Message", "The name: " + name + " was already registered, and the previous one has been overided",
+//			new String[]{I18N.gui().get("common.buttons.ok"),I18N.gui().get("common.buttons.halt")});
+			//throw new ExtensionException("The name: " + name + " was already registered, and the previous one has been overided");
 		}else{
 			registry.put(name, f);
 		}

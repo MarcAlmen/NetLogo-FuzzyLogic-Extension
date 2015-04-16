@@ -30,7 +30,7 @@ public class GaussianWithLabel extends DefaultReporter {
 		resultParams.add((Double) params.first());
 		resultParams.add((Double) params.get(1));
 		FuzzySet createdSet = new GaussianSet(resultParams, true, arg0[0].getString(), universe);
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString());
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
 		return createdSet;
 	}
 }

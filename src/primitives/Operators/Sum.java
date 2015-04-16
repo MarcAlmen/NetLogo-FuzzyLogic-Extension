@@ -4,6 +4,7 @@ import java.util.List;
 
 
 
+
 import general.DegreeOfFulfillment;
 
 import org.nlogo.api.Argument;
@@ -53,7 +54,7 @@ public class Sum extends DefaultReporter{
 	
 	private FuzzySet sumDiscrete(LogoList l){
 		Tuple<double[]> t = SupportOperators.discreteOperations(l, new Add());
-		return new DiscreteNumericSet(t.getParams(), false, "Sum-discrete", t.getUniverse());
+		return new DiscreteNumericSet(t.getParams(), false,SupportOperators.buildLabel(l, "Sum"), t.getUniverse());
 	}
 	
 	
@@ -74,13 +75,13 @@ public class Sum extends DefaultReporter{
 			}
 		}
 		Cut c = new Cut();
-		return c.cutting(new PiecewiseLinearSet(result, true, "sum-piecewise", universe),1.0);
+		return c.cutting(new PiecewiseLinearSet(result, true,SupportOperators.buildLabel(l, "Sum"), universe),1.0);
 	}
 	
 	
 	private FuzzySet sumContinuous(LogoList l){
 		Tuple<FuzzySet> t = SupportOperators.continuousParamsUniverse(l);
-		return new SumSet(t.getParams(),true,"Sum-continuous",t.getUniverse());
+		return new SumSet(t.getParams(),true,SupportOperators.buildLabel(l, "Sum"),t.getUniverse());
 	}
 	
 	

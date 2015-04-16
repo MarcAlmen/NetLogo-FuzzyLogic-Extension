@@ -44,7 +44,7 @@ public class Not extends DefaultReporter{
 			createPoint[1] = 1 - point[1];
 			params.add(createPoint.clone());	
 		}
-		return new DiscreteNumericSet(params, false, "discrete-not", f.getUniverse());
+		return new DiscreteNumericSet(params, false, "Not of set: " + f.getLabel(), f.getUniverse());
 	}
 	
 	private FuzzySet notPiecewise(PointSet f){
@@ -55,13 +55,13 @@ public class Not extends DefaultReporter{
 			createPoint[1] = 1 - point[1];
 			params.add(createPoint.clone());	
 		}
-		return new PiecewiseLinearSet(params, true, "piecewise-not", f.getUniverse());
+		return new PiecewiseLinearSet(params, true, "Not of set: " + f.getLabel() , f.getUniverse());
 	}
 	
 	private FuzzySet notContinuous(FuzzySet f){
 		List<FuzzySet> params = new ArrayList<FuzzySet>();
 		params.add(f);
-		return new NotSet(params, true, "continuous-not", f.getUniverse());
+		return new NotSet(params, true,"Not of set: " + f.getLabel(), f.getUniverse());
 	}
 
 }
