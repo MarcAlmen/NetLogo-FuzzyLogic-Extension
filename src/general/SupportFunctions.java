@@ -6,9 +6,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.nlogo.api.CompilerException;
 import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
+import org.nlogo.api.I18N;
+import org.nlogo.api.ImportErrorHandler;
 import org.nlogo.api.LogoList;
+import org.nlogo.app.App;
+import org.nlogo.nvm.ExtensionContext;
+import org.nlogo.window.GUIWorkspace;
 
 import sets.FuzzySet;
 
@@ -169,10 +175,13 @@ public class SupportFunctions {
 	
 	public static void addToRegistry(FuzzySet f,String name,Context c) throws ExtensionException{
 		Map<String,FuzzySet> registry = FuzzyLogic.getRegistry();
-		//GUIWorkspace gw =(GUIWorkspace) ((ExtensionContext) c).workspace();
+		GUIWorkspace gw =(GUIWorkspace) ((ExtensionContext) c).workspace();
 		if(registry.containsKey(name)){
 			registry.remove(name);
 			registry.put(name, f);
+			org.nlogo.swing.OptionDialog.show(org.nlogo.app.App.app().frame(),"Hola","Hola Holita", new String[]{"More Information", "Close"});
+		    //ImportErrorHandler ieh;
+//			ieh.showError("Error creating set with label", "The label is already registered", "The previuos set with that label will be overided");
 //			OptionDialog.show(gw.getFrame(), "User Message", "The name: " + name + " was already registered, and the previous one has been overided",
 //			new String[]{I18N.gui().get("common.buttons.ok"),I18N.gui().get("common.buttons.halt")});
 			//throw new ExtensionException("The name: " + name + " was already registered, and the previous one has been overided");

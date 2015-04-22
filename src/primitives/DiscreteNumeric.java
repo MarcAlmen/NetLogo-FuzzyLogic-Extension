@@ -13,30 +13,44 @@ import org.nlogo.api.Syntax;
 
 import sets.DiscreteNumericSet;
 
+/**
+ * This class creates a new discrete numeric set. Implements the primitive
+ * "discrete-numeric-set".
+ * 
+ * @author Marcos Almendres.
+ *
+ */
 public class DiscreteNumeric extends DefaultReporter {
-	
-	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[]{Syntax.ListType()},Syntax.WildcardType());
+
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a list and returns a Wildcard.
+	 */
+	public Syntax getSyntax() {
+		return Syntax.reporterSyntax(new int[] { Syntax.ListType() },
+				Syntax.WildcardType());
 	}
 
+	/**
+	 * This method respond to the call from Netlogo and returns the set.
+	 * 
+	 * @param arg0
+	 *            Arguments from Netlogo call, in this case a list.
+	 * @param arg1
+	 *            Context of Netlogo when the call was done.
+	 * @return A new DiscreteNumericSet.
+	 */
 	@Override
-	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
-		double[] universe = new double[] {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}; 
-		//List<LogoList> sortingList = new ArrayList<LogoList>();
-		/*
-		 * CheckListFormat Checks:
-		 * list
-		 * list of lists
-		 * list of 2 elements lists
-		 * second of each element between 0 and 1
-		 */
-		//sortingList = SupportFunctions.checkListFormat(arg0[0].getList());
-		//Ordenar por el primer elemento
-		//Posible mejora: Si ya está ordenado evitar ordenarlo
+	public Object report(Argument[] arg0, Context arg1)
+			throws ExtensionException, LogoException {
+		double[] universe = new double[] { Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY };
+		// Checks the list format and store the parameters of the set in a list.
 		List<double[]> ej = SupportFunctions.checkListFormat(arg0[0].getList());
-		//Obtiene el universo del FuzzySet
+		// Sets the universe.
 		universe[0] = ej.get(0)[0];
-		universe[1] = ej.get(ej.size()-1)[0];
-		return new DiscreteNumericSet(ej,false,"discrete",universe);
+		universe[1] = ej.get(ej.size() - 1)[0];
+		// Create and return the new discrete numeric set
+		return new DiscreteNumericSet(ej, false, "discrete", universe);
 	}
 }

@@ -16,23 +16,48 @@ import org.nlogo.api.Syntax;
 import sets.FuzzySet;
 import sets.LogisticSet;
 
+/**
+ * This class creates a new logistic set with the label given. Implements the
+ * primitive "logistic-set-with-label".
+ * 
+ * @author Marcos Almendres.
+ *
+ */
 public class LogisticWithLabel extends DefaultReporter {
-	
-	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[] {Syntax.StringType(), Syntax.ListType()},Syntax.WildcardType());
+
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a string and a list and returns a Wildcard.
+	 */
+	public Syntax getSyntax() {
+		return Syntax.reporterSyntax(
+				new int[] { Syntax.StringType(), Syntax.ListType() },
+				Syntax.WildcardType());
 	}
 
+	/**
+	 * This method respond to the call from Netlogo and returns the set.
+	 * 
+	 * @param arg0
+	 *            Arguments from Netlogo call, in this case a string and a list.
+	 * @param arg1
+	 *            Context of Netlogo when the call was done.
+	 * @return A new LogisticSet.
+	 */
 	@Override
-	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
+	public Object report(Argument[] arg0, Context arg1)
+			throws ExtensionException, LogoException {
+		// The same as Logistic
 		LogoList params = arg0[1].getList();
 		List<Double> resultParams = new ArrayList<Double>();
 		double[] universe = SupportFunctions.LGEFormat(params, 4);
 		resultParams.add((Double) params.first());
 		resultParams.add((Double) params.get(1));
 		resultParams.add((Double) params.get(2));
-		FuzzySet createdSet = new LogisticSet(resultParams,true,arg0[0].getString(),universe);
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
+		FuzzySet createdSet = new LogisticSet(resultParams, true,
+				arg0[0].getString(), universe);
+		// Add the set to a registry, allowing to look for it in the future.
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(), arg1);
 		return createdSet;
 	}
-
 }

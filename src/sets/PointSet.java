@@ -1,27 +1,58 @@
 package sets;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PointSet extends FuzzySet{
-	
-	List<double[]> parameters;
+/**
+ * This class represent all sets based on points.
+ * 
+ * @author Marcos Almendres.
+ *
+ */
+public abstract class PointSet extends FuzzySet {
 
-	PointSet(String description,List<double[]> params, boolean continuous, String label, double[] universe) {
+	/**
+	 * List of 2 point arrays. i.e.: ([0 0] [1 1] [2 0] [3 1]).
+	 */
+	private List<double[]> parameters;
+
+	/**
+	 * Call the constructor in FuzzySet. Save the parameters of a Point Set.
+	 * 
+	 * @param params
+	 *            The parameters of a Point set.
+	 * @see sets.FuzzySet#FuzzySet(String description, boolean continuous,
+	 *      String label,double[] universe).
+	 */
+	PointSet(String description, List<double[]> params, boolean continuous,
+			String label, double[] universe) {
 		super(description, continuous, label, universe);
-		//parameters = params;
 		parameters = new ArrayList<double[]>(params);
 	}
-	
+
+	/**
+	 * Clone and return the parameters of the sets.
+	 * 
+	 * @return The parameters of the sets.
+	 */
 	public List<double[]> getParameters() {
 		List<double[]> params = new ArrayList<double[]>();
 		params.addAll(parameters);
-		return  params;
+		return params;
 	}
 
-	public void setParameters(List<double[]> parameters) {
-		this.parameters.clear();
-		this.parameters.addAll(parameters);
+	/**
+	 * {@inheritDoc}
+	 */
+	public String dump(boolean readable, boolean exporting, boolean reference) {
+		String s = "[";
+		NumberFormat nf = new DecimalFormat("##.###");
+		for (double[] param : parameters) {
+			s += "[" + nf.format(param[0]) + " " + nf.format(param[1]) + "]";
+		}
+		s += "]";
+		return s;
 	}
-
 }

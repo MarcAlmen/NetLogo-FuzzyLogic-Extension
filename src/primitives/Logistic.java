@@ -15,21 +15,45 @@ import org.nlogo.api.Syntax;
 
 import sets.LogisticSet;
 
+/**
+ * This class creates a new logistic set. Implements the primitive
+ * "logistic-set".
+ * 
+ * @author Marcos Almendres.
+ *
+ */
 public class Logistic extends DefaultReporter {
-	
-	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[]{Syntax.ListType()},Syntax.WildcardType());
+
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a list and returns a Wildcard.
+	 */
+	public Syntax getSyntax() {
+		return Syntax.reporterSyntax(new int[] { Syntax.ListType() },
+				Syntax.WildcardType());
 	}
 
+	/**
+	 * This method respond to the call from Netlogo and returns the set.
+	 * 
+	 * @param arg0
+	 *            Arguments from Netlogo call, in this case a list.
+	 * @param arg1
+	 *            Context of Netlogo when the call was done.
+	 * @return A new LogisticSet.
+	 */
 	@Override
-	public Object report(Argument[] arg0, Context arg1)throws ExtensionException, LogoException {
+	public Object report(Argument[] arg0, Context arg1)
+			throws ExtensionException, LogoException {
 		LogoList params = arg0[0].getList();
 		List<Double> resultParams = new ArrayList<Double>();
+		// Checks the parameters and store the universe.
 		double[] universe = SupportFunctions.LGEFormat(params, 4);
+		// Add the parameters to a list
 		resultParams.add((Double) params.first());
 		resultParams.add((Double) params.get(1));
 		resultParams.add((Double) params.get(2));
-		return new LogisticSet(resultParams,true,"logistic",universe);
+		// Creates and return the new set
+		return new LogisticSet(resultParams, true, "logistic", universe);
 	}
-
 }

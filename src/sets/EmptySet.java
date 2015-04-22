@@ -2,26 +2,39 @@ package sets;
 
 import java.util.List;
 
+/**
+ * This sets contains nothing.
+ * 
+ * @author Marcos Almendres.
+ *
+ */
 public class EmptySet extends FuzzySet {
 
+	/**
+	 * Call the constructor in FuzzySet.
+	 * @see  sets.FuzzySet#FuzzySet(String description, boolean continuous, String label,double[] universe).
+	 */
 	public EmptySet(String description, boolean continuous, String label,
 			double[] universe) {
 		super(description, continuous, label, universe);
-		// TODO Auto-generated constructor stub
 	}
-	
-	public EmptySet(){
-		super(null,true,null,new double[]{});
+
+	/**
+	 * Empty constructor, easier and faster to use. Call the constructor in
+	 * FuzzySet with an empty universe.
+	 */
+	public EmptySet() {
+		super("empty", true, "empty", new double[] {});
 	}
 
 	@Override
 	public double evaluate(double d) {
-		return 0;
+		return Double.NaN;
 	}
 
 	@Override
 	public double evaluate(FuzzySet f) {
-		return 0;
+		return Double.NaN;
 	}
 
 	@Override

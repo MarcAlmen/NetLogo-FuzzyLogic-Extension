@@ -27,6 +27,7 @@ public class FuzzyLogic extends DefaultClassManager{
 	//Crear un WeakHashMap para hacer de regisitro?
 	//Crear un id para asignarlo a cada entrada del weakHashmap
 	private static Map<String,FuzzySet> registry = new WeakHashMap<String,FuzzySet>();
+	public static boolean errorShown = false;
 	
 	public static Map<String,FuzzySet> getRegistry(){
 		return registry;

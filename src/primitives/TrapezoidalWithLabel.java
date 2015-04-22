@@ -13,18 +13,45 @@ import org.nlogo.api.Syntax;
 import sets.FuzzySet;
 import sets.PiecewiseLinearSet;
 
-public class TrapezoidalWithLabel extends DefaultReporter{
+/**
+ * This class creates a new trapezoidal set with the label given. Implements the
+ * primitive "trapezoidal-set-with-label".
+ * 
+ * @author Marcos Almendres.
+ *
+ */
+public class TrapezoidalWithLabel extends DefaultReporter {
 
-	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[] {Syntax.StringType(),Syntax.ListType()}, Syntax.WildcardType());
-	} 
-
-	@Override
-	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
-		LogoList args = arg0[1].getList(); 
-		FuzzySet createdSet = new PiecewiseLinearSet(SupportFunctions.trapezoidalFormat(args),true,arg0[0].getString(),new double[]{(Double) args.first(),(Double) args.get(5)});
-		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(),arg1);
-		return createdSet;
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a string and a list and returns a Wildcard.
+	 */
+	public Syntax getSyntax() {
+		return Syntax.reporterSyntax(
+				new int[] { Syntax.StringType(), Syntax.ListType() },
+				Syntax.WildcardType());
 	}
 
+	/**
+	 * This method respond to the call from Netlogo and returns the set.
+	 * 
+	 * @param arg0
+	 *            Arguments from Netlogo call, in this case a string and a list.
+	 * @param arg1
+	 *            Context of Netlogo when the call was done.
+	 * @return A new TrapezoidalSet.
+	 */
+	@Override
+	public Object report(Argument[] arg0, Context arg1)
+			throws ExtensionException, LogoException {
+		// The same as Trapezoidal
+		LogoList args = arg0[1].getList();
+		FuzzySet createdSet = new PiecewiseLinearSet(
+				SupportFunctions.trapezoidalFormat(args), true,
+				arg0[0].getString(), new double[] { (Double) args.first(),
+						(Double) args.get(5) });
+		// Add the set to a registry, allowing to look for it in the future.
+		SupportFunctions.addToRegistry(createdSet, arg0[0].getString(), arg1);
+		return createdSet;
+	}
 }

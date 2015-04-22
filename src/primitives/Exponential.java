@@ -15,21 +15,45 @@ import org.nlogo.api.Syntax;
 
 import sets.ExponentialSet;
 
+/**
+ * This class creates a new exponential set. Implements the primitive
+ * "exponential-set".
+ * 
+ * @author Marcos Almendres.
+ *
+ */
 public class Exponential extends DefaultReporter {
-	
-	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[]{Syntax.ListType()},Syntax.WildcardType());
+
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a list and returns a Wildcard.
+	 */
+	public Syntax getSyntax() {
+		return Syntax.reporterSyntax(new int[] { Syntax.ListType() },
+				Syntax.WildcardType());
 	}
 
+	/**
+	 * This method respond to the call from Netlogo and returns the set.
+	 * 
+	 * @param arg0
+	 *            Arguments from Netlogo call, in this case a list.
+	 * @param arg1
+	 *            Context of Netlogo when the call was done.
+	 * @return A new ExponentialSet.
+	 */
 	@Override
-	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
+	public Object report(Argument[] arg0, Context arg1)
+			throws ExtensionException, LogoException {
 		LogoList params = arg0[0].getList();
 		List<Double> finalParams = new ArrayList<Double>();
+		// Checks the format of the parameters and store the universe
 		double[] universe = SupportFunctions.LGEFormat(params, 4);
+		// Put the arguments in a list
 		finalParams.add((Double) params.first());
 		finalParams.add((Double) params.get(1));
 		finalParams.add((Double) params.get(2));
-		return new ExponentialSet(finalParams,true,"Exponential",universe);
+		// Create and return the new set
+		return new ExponentialSet(finalParams, true, "Exponential", universe);
 	}
-
 }

@@ -4,22 +4,40 @@ import general.DegreeOfFulfillment;
 
 import java.util.List;
 
-public class MaxOrSet extends OperatorSet{
+/**
+ * This class represents the max(also known by or) sets.
+ * 
+ * @author Marcos Almendres.
+ *
+ */
+public class MaxOrSet extends OperatorSet {
 
-	public MaxOrSet(List<FuzzySet> params, boolean continuous, String label, double[] universe) {
+	/**
+	 * Call the constructor from OperatorSet.
+	 */
+	public MaxOrSet(List<FuzzySet> params, boolean continuous, String label,
+			double[] universe) {
 		super("Max-Or-set", params, continuous, label, universe);
 	}
 
 	@Override
+	/**
+	 * Evaluate a number in the max-or set.
+	 * @param d The number to evaluate.
+	 * @return The evaluation result.
+	 */
 	public double evaluate(double d) {
 		double max = Double.NEGATIVE_INFINITY;
 		double eval = Double.NEGATIVE_INFINITY;
-		for(FuzzySet f : parameters){
+		// Iterate over the fuzzy sets.
+		for (FuzzySet f : parameters) {
 			eval = f.evaluate(d);
-			if(eval == Double.NaN){
+			// if one of them return NaN the MaxOr set too.
+			if (eval == Double.NaN) {
 				return Double.NaN;
 			}
-			if(eval > max){
+			// Look for the greatest of the evaluations.
+			if (eval > max) {
 				max = eval;
 			}
 		}
@@ -27,15 +45,23 @@ public class MaxOrSet extends OperatorSet{
 	}
 
 	@Override
+	/**
+	 * Evaluate a fuzzy set in the max-or set.
+	 * @param f The fuzzy set to evaluate.
+	 * @return The evaluation result.
+	 */
 	public double evaluate(FuzzySet f) {
-		if(!f.isContinuous()){
+		if (!f.isContinuous()) {
 			return DegreeOfFulfillment.mixedFulfillment(this, f);
-		}else{
+		} else {
 			return DegreeOfFulfillment.continuousFulfillment(this, f);
 		}
 	}
 
 	@Override
+	/**
+	 * String returned to netlogo.
+	 */
 	public String getNLTypeName() {
 		// TODO Auto-generated method stub
 		return "max-or-set";

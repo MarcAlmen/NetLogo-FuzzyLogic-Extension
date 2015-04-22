@@ -2,7 +2,7 @@ package sets;
 
 import general.DegreeOfFulfillment;
 
-public class ProdSet extends DerivatedSet {
+public class ProdSet extends DerivedSet {
 
 	public ProdSet(FuzzySet param, double limit,boolean continuous, String label, double[] universe) {
 		super("prod-set", param, limit, continuous, label, universe);
