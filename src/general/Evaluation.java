@@ -9,18 +9,30 @@ import org.nlogo.api.LogoList;
 import org.nlogo.api.LogoListBuilder;
 import org.nlogo.api.Syntax;
 
-import sets.FuzzySet;
+import sets.general.FuzzySet;
 
+/**
+ * This class implements the evaluation primitive
+ * @author Marcos Almendres.
+ *
+ */
 public class Evaluation extends DefaultReporter {
 	
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a list and returns a Wildcard.
+	 */
 	public Syntax getSyntax(){
 		return Syntax.reporterSyntax(new int[] {Syntax.WildcardType(),Syntax.WildcardType()},Syntax.ReadableType());
 	}
 
 	@Override
+	/**
+	 * When the extension is loaded call this method.
+	 */
 	public Object report(Argument[] arg0, Context arg1)
 			throws ExtensionException, LogoException {
-		//Checks the first argument is a FuzzySet and cast it
+		//Checks if the first argument is a FuzzySet.
 		if(!(arg0[0].get() instanceof FuzzySet)){
 			throw new ExtensionException("The first argument must be a fuzzySet");
 		}
@@ -31,9 +43,9 @@ public class Evaluation extends DefaultReporter {
 		//if its a LogoList call multipleEvaluation
 		//if its any other class it throw a extension exception
 		if(obj instanceof FuzzySet){
-			return degreeOfFulfillment(fuzzySet, (FuzzySet) obj);
+			return fuzzySet.evaluate((FuzzySet)obj);
 		}else if(obj instanceof Double){
-			return singleEvaluation(fuzzySet,(Double) obj);
+			return fuzzySet.evaluate((Double) obj);
 		}else if(obj instanceof LogoList){
 			return multipleEvaluation(fuzzySet,(LogoList) obj);
 		}else{
@@ -41,14 +53,13 @@ public class Evaluation extends DefaultReporter {
 		}
 	}
 	
-	public Object degreeOfFulfillment(FuzzySet a,FuzzySet b){
-		return a.evaluate(b);
-	}
-	
-	public Object singleEvaluation(FuzzySet a,double b){
-		return a.evaluate(b);
-	}
-	
+	/**
+	 * Calculate all the evaluations of the logo list elements.
+	 * @param a The fuzzy set where the we should evaluate.
+	 * @param b The logo list that contains the elements.
+	 * @return A Logo list with all the evaluation results.
+	 * @throws ExtensionException
+	 */
 	public Object multipleEvaluation(FuzzySet a, LogoList b) throws ExtensionException{
 		LogoListBuilder result = new LogoListBuilder();
 		//Iterate over the LogoList
@@ -56,11 +67,11 @@ public class Evaluation extends DefaultReporter {
 			//If object is a fuzzySet call degreeOfFulfillment
 			//if its a Double call singleEvaluation
 			//if its any other class it throw a extension exception
-			//Add the results to a LogoListBuilder to return a LogoList with all the evaluation results
+			//Add the results to a LogoListBuilder to return a LogoList with all the evaluation results.
 			if(o instanceof FuzzySet){
-				result.add(degreeOfFulfillment(a,(FuzzySet) o));
+				result.add(a.evaluate((FuzzySet) o));
 			}else if(o instanceof Double){
-				result.add(singleEvaluation(a,(Double) o));
+				result.add(a.evaluate((Double) o));
 			}else{
 				throw new ExtensionException("The list can only cointain FuzzySets or Numbers");
 			}

@@ -11,7 +11,7 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoListBuilder;
 import org.nlogo.api.Syntax;
 
-import sets.FuzzySet;
+import sets.general.FuzzySet;
 
 public class Points extends DefaultReporter{
 	

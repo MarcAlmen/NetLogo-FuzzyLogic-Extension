@@ -12,65 +12,125 @@ import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
 import org.nlogo.api.Syntax;
 
-import sets.CutSet;
-import sets.DiscreteNumericSet;
-import sets.FuzzySet;
-import sets.PiecewiseLinearSet;
-import sets.PointSet;
+import sets.derived.CutSet;
+import sets.general.FuzzySet;
+import sets.general.PointSet;
+import sets.points.DiscreteNumericSet;
+import sets.points.PiecewiseLinearSet;
 
-public class Cut extends DefaultReporter{
-	
-	public Syntax getSyntax(){
-		return Syntax.reporterSyntax(new int[]{Syntax.WildcardType(),Syntax.NumberType()},Syntax.WildcardType());
+/**
+ * This class implements the primitive truncate.
+ * 
+ * @author Marcos Almendres.
+ *
+ */
+public class Cut extends DefaultReporter {
+
+	/**
+	 * This method tells Netlogo the appropriate syntax of the primitive.
+	 * Receives a wildcard and a number, returns a wildcard.
+	 */
+	public Syntax getSyntax() {
+		return Syntax.reporterSyntax(
+				new int[] { Syntax.WildcardType(), Syntax.NumberType() },
+				Syntax.WildcardType());
 	}
 
+	/**
+	 * This method respond to the call from Netlogo and returns the truncated
+	 * fuzzy set.
+	 * 
+	 * @param arg0
+	 *            Arguments from Netlogo call, in this case a list.
+	 * @param arg1
+	 *            Context of Netlogo when the call was done.
+	 * @return A fuzzy set.
+	 */
 	@Override
-	public Object report(Argument[] arg0, Context arg1) throws ExtensionException, LogoException {
+	public Object report(Argument[] arg0, Context arg1)
+			throws ExtensionException, LogoException {
 		double c = arg0[1].getDoubleValue();
-		if(c < 0 || c > 1){
-			throw new ExtensionException("The value of the number must be between 0 and 1");
+		// Checks the number is between 0 and 1
+		if (c < 0 || c > 1) {
+			throw new ExtensionException(
+					"The value of the number must be between 0 and 1");
 		}
-		FuzzySet f =(FuzzySet) arg0[0].get();
+		FuzzySet f = (FuzzySet) arg0[0].get();
 		return cutting(f, c);
 	}
-	
-	public FuzzySet cutting(FuzzySet f, double c){
-		if(f.isContinuous()){
-			if(f instanceof PiecewiseLinearSet){
+
+	/**
+	 * Checks what kind of fuzzy set is passed and execute the correct action.
+	 * 
+	 * @param f
+	 *            The fuzzy set to be truncated.
+	 * @param c
+	 *            The number to truncate the fuzzy set.
+	 * @return The fuzzy set truncated by the number.
+	 */
+	public FuzzySet cutting(FuzzySet f, double c) {
+		if (f.isContinuous()) {
+			// If piecewise
+			if (f instanceof PiecewiseLinearSet) {
 				return cutPiecewise((PointSet) f, c);
-			}else{
-				return new CutSet(f,c, true, "continuous-cut", f.getUniverse());
+			} else {// If continuous
+				return new CutSet(f, c, true, "continuous-cut", f.getUniverse());
 			}
-		}else{
+		} else {// If discrete
 			return cutDiscrete((PointSet) f, c);
 		}
 	}
-	
-	private FuzzySet cutDiscrete(PointSet f, double c){
+
+	/**
+	 * Truncate a discrete set.
+	 * 
+	 * @param f
+	 *            The discrete set.
+	 * @param c
+	 *            The number to truncate the set.
+	 * @return The truncated discrete set.
+	 */
+	public FuzzySet cutDiscrete(PointSet f, double c) {
 		List<double[]> params = new ArrayList<double[]>();
 		double[] resultPoint = new double[2];
-		for(double[] point : f.getParameters()){
+		// Iterate over the parameters
+		for (double[] point : f.getParameters()) {
 			resultPoint[0] = point[0];
-			if(point[1] > c){
+			// If the y value is greater than c, clip it.
+			if (point[1] > c) {
 				resultPoint[1] = c;
-			}else{
+			} else {
 				resultPoint[1] = point[1];
 			}
 			params.add(resultPoint.clone());
 		}
-		return new DiscreteNumericSet(params, false, "discrete-cut" , f.getUniverse());
+		// Create and return the new truncated set.
+		return new DiscreteNumericSet(params, false, "discrete-cut",
+				f.getUniverse());
 	}
-	
-	private FuzzySet cutPiecewise(PointSet f, double c){
-		//Create a line in the whole universe with y = c
-		double[] firstPoint = new double[]{f.getUniverse()[0] , c};
-		double[] lastPoint = new double[]{f.getUniverse()[1] , c};
+
+	/**
+	 * Truncate a piecewise linear set.
+	 * 
+	 * @param f
+	 *            The piecewise linear set.
+	 * @param c
+	 *            The number to truncate the set.
+	 * @return The truncated piecewise linear set.
+	 */
+	public FuzzySet cutPiecewise(PointSet f, double c) {
+		// Create a line in the whole universe with y = c
+		double[] firstPoint = new double[] { f.getUniverse()[0], c };
+		double[] lastPoint = new double[] { f.getUniverse()[1], c };
 		List<double[]> paramsLine = new ArrayList<double[]>();
 		paramsLine.add(firstPoint);
 		paramsLine.add(lastPoint);
-		PointSet cutLine = new PiecewiseLinearSet(paramsLine, true, "cut-line", f.getUniverse());
-		//Calculate the lower envelope and create the resulting set
-		return new PiecewiseLinearSet(DegreeOfFulfillment.lowerEnvelope(f, cutLine), true, "piecewise-cut", f.getUniverse());
+		PointSet cutLine = new PiecewiseLinearSet(paramsLine, true, "cut-line",
+				f.getUniverse());
+		// Calculate the lower envelope and create the resulting set
+		// This will clip all values above c
+		return new PiecewiseLinearSet(DegreeOfFulfillment.lowerEnvelope(f,
+				cutLine), true, "piecewise-cut", f.getUniverse());
 	}
 
 }

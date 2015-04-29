@@ -3,26 +3,48 @@ package primitives.Operators;
 import java.util.List;
 
 /**
- * Wrapper class for a the return type of some methods
- * @author Marcos Almendres
- *
- * @param <E> Use to be a FuzzySet
+ * Wrapper class for a the return type of some methods.
+ * 
+ * @see SupportOperators#continuousParamsUniverse(LogoList)
+ * @see SupportOperators#discreteOperations(LogoList, Command).
+ * @author Marcos Almendres.
+ * 
+ * @param <E>
+ *            This use to be Fuzzy sets parameters.
  */
 public class Tuple<E> {
-	
+
 	private List<E> f;
 	private double[] universe;
-	
-	public Tuple(List<E> f, double[] universe){
+
+	/**
+	 * Constructor of tuple.
+	 * 
+	 * @param f
+	 *            Fuzzy sets parameters.
+	 * @param universe
+	 *            universe.
+	 */
+	public Tuple(List<E> f, double[] universe) {
 		this.f = f;
 		this.universe = universe;
 	}
-	
-	public List<E> getParams(){
+
+	/**
+	 * Take the parameters of the tuple.
+	 * 
+	 * @return The parameters.
+	 */
+	public List<E> getParams() {
 		return f;
 	}
-	
-	public double[] getUniverse(){
+
+	/**
+	 * Take the universe of the tuple.
+	 * 
+	 * @return the universe.
+	 */
+	public double[] getUniverse() {
 		return universe;
 	}
 

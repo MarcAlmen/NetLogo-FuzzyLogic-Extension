@@ -1,8 +1,10 @@
 package general;
 
 import java.util.ArrayList;
-
 import java.util.List;
+
+
+
 
 
 
@@ -20,10 +22,10 @@ import primitives.Operators.MinAnd;
 //
 //import sets.DiscreteNumericSet;
 //import sets.FuzzySet;
-import sets.PiecewiseLinearSet;
 //import sets.ExponentialSet;
 //import sets.FunctionSet;
-import sets.PointSet;
+import sets.general.PointSet;
+import sets.points.PiecewiseLinearSet;
 
 public class Pruebas {
 
